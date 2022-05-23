@@ -1,4 +1,4 @@
-C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\Developer\RiderLink\Source\RiderShaderInfoDump\RiderShaderInfoDump.cpp
+"C:\Unreal Projects\MyProject\Plugins\Developer\RiderLink\Source\RiderShaderInfoDump\RiderShaderInfoDump.cpp"
 /I .
 /I Runtime
 /I Runtime\TraceLog\Public
@@ -7,7 +7,7 @@ C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\Developer\RiderLink\Sourc
 /I Runtime\Json\Public
 /I Runtime\RenderCore\Public
 /I Runtime\RHI\Public
-/I C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\Developer\RiderLink\Source
+/I "C:\Unreal Projects\MyProject\Plugins\Developer\RiderLink\Source"
 /I ThirdParty\mimalloc\include
 /I "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\INCLUDE"
 /I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"
@@ -15,9 +15,9 @@ C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\Developer\RiderLink\Sourc
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\Definitions.h"
-/Fo"C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
-/sourceDependencies C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.json
+/FI"C:\Unreal Projects\MyProject\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\Definitions.h"
+/Fo"C:\Unreal Projects\MyProject\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
+/sourceDependencies "C:\Unreal Projects\MyProject\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.json"
 /Zc:inline
 /nologo
 /Oi

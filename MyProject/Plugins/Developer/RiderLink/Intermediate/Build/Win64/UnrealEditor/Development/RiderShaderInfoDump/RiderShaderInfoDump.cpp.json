@@ -1,11 +1,11 @@
 {
     "Version": "1.1",
     "Data": {
-        "Source": "c:\\unreal projects\\myproject\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.cpp",
+        "Source": "c:\\projects\\unreal_inventory_project\\myproject\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\unreal projects\\myproject\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\ridershaderinfodump\\definitions.h",
-            "c:\\unreal projects\\myproject\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.h",
+            "c:\\projects\\unreal_inventory_project\\myproject\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\ridershaderinfodump\\definitions.h",
+            "c:\\projects\\unreal_inventory_project\\myproject\\plugins\\developer\\riderlink\\source\\ridershaderinfodump\\ridershaderinfodump.h",
             "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\core\\public\\modules\\moduleinterface.h",
             "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\core\\public\\coretypes.h",
             "c:\\program files\\epic games\\ue_5.0\\engine\\source\\runtime\\core\\public\\hal\\platform.h",
