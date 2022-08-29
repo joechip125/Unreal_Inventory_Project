@@ -29,6 +29,18 @@
 				"Mac",
 				"Linux"
 			]
+		},
+		{
+			"Name": "GameFeatures",
+			"Enabled": true
+		},
+		{
+			"Name": "ModularGameplay",
+			"Enabled": true
+		},
+		{
+			"Name": "SimpleMovement",
+			"Enabled": true
 		}
 	]
 }
