@@ -41,6 +41,10 @@
 		{
 			"Name": "SimpleMovement",
 			"Enabled": true
+		},
+		{
+			"Name": "InventoryItems",
+			"Enabled": true
 		}
 	]
 }
