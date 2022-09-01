@@ -7,7 +7,15 @@
 #include "Components/ActorComponent.h"
 #include "EnumTestComponent.generated.h"
 
+//ECharacterQualities operator&(ECharacterQualities lhs, ECharacterQualities rhs)
+//{
+//	return static_cast<ECharacterQualities>
+//	(static_cast<std::underlying_type_t<ECharacterQualities>>(lhs) &
+//		static_cast<std::underlying_type_t<ECharacterQualities>>(rhs));
+//}
 
+bool operator&(int32 Lhs, ECharacterQualities RHS);
+bool operator|(bool bLhs, ECharacterQualities RHS);
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYPROJECT_API UEnumTestComponent : public UActorComponent
 {

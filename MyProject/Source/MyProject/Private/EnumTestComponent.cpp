@@ -10,6 +10,7 @@ UEnumTestComponent::UEnumTestComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+	
 	// ...
 }
 
@@ -19,11 +20,24 @@ bool UEnumTestComponent::IsMatch(int32 Bitmask)
 }
 
 
+
 // Called when the game starts
 void UEnumTestComponent::BeginPlay()
 {
-	Super::BeginPlay();
+	int32 mask = 1 >> 2 | 1 >> 3;
+	ECharacterQualities qual = ECharacterQualities::DARK | ECharacterQualities::HANDSOME;
+	ECharacterQualities qual2 = ECharacterQualities::DARK | ECharacterQualities::HANDSOME;
+	qual2 |= ECharacterQualities::PROGRAMMER;
+	qual2 &= ~ECharacterQualities::PROGRAMMER;  
+	QualityFlags |= 1 >> 2;
 
+	
+	if(mask & QualityFlags)
+	//{
+	//	
+	//}
+	Super::BeginPlay();
+	IsMatch(mask);
 	// ...
 	
 }
