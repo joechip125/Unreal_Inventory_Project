@@ -14,8 +14,8 @@
 //		static_cast<std::underlying_type_t<ECharacterQualities>>(rhs));
 //}
 
-bool operator&(int32 Lhs, ECharacterQualities RHS);
-bool operator|(bool bLhs, ECharacterQualities RHS);
+
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYPROJECT_API UEnumTestComponent : public UActorComponent
 {
@@ -28,15 +28,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Bitmask, BitmaskEnum = ECharacterQualities))
 	int32 QualityFlags;
 
-	UFUNCTION(BlueprintCallable)
-	bool IsMatch(UPARAM(meta = (Bitmask, BitmaskEnum = EAnimDescriptorFlags)) int32 Bitmask);
+	//UFUNCTION(BlueprintCallable)
+	//bool IsMatch(UPARAM(meta = (Bitmask, BitmaskEnum = EAnimDescriptorFlags)) int32 Bitmask);
 
 	
-	UFUNCTION(BlueprintCallable)
-	bool IsTall() const
-	{
-		return QualityFlags & ECharacterQualities::TALL;
-	}
+	//UFUNCTION(BlueprintCallable)
+	////bool IsTall() const
+	////{
+	////	return QualityFlags & ECharacterQualities::TALL;
+	//}
 
 protected:
 	// Called when the game starts

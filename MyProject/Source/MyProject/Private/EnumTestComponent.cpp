@@ -14,10 +14,10 @@ UEnumTestComponent::UEnumTestComponent()
 	// ...
 }
 
-bool UEnumTestComponent::IsMatch(int32 Bitmask)
-{
-	return Bitmask & QualityFlags == Bitmask;
-}
+//bool UEnumTestComponent::IsMatch(int32 Bitmask)
+//{
+//	return Bitmask & QualityFlags == Bitmask;
+//}
 
 
 
@@ -37,7 +37,7 @@ void UEnumTestComponent::BeginPlay()
 	//	
 	//}
 	Super::BeginPlay();
-	IsMatch(mask);
+
 	// ...
 	
 }
