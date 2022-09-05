@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AIPerceptionTypes.h"
 #include "TP_ThirdPersonCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -24,6 +26,9 @@ public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
 	float TurnRateGamepad;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UAIPerceptionStimuliSourceComponent* Perception;
 
 protected:
 
