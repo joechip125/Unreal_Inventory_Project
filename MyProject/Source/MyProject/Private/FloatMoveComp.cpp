@@ -28,14 +28,9 @@ void UFloatMoveComp::BeginPlay()
 void UFloatMoveComp::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	auto pos = GetOwner()->GetActorLocation();
-	auto moveX = moveValue.GetComponentForAxis(EAxis::X);
-	auto moveY = moveValue.GetComponentForAxis(EAxis::Y);
-	auto moveZ = moveValue.GetComponentForAxis(EAxis::Z);
-	FVector newVector = pos + moveValue * (DeltaTime * moveMultiplier); 
 	
-	GetOwner()->SetActorLocation(newVector);
+	GetOwner()->SetActorLocation(GetOwner()->GetActorLocation()
+	+ moveValue * (DeltaTime * moveMultiplier));
 
 	if(Oscillate)
 	{
