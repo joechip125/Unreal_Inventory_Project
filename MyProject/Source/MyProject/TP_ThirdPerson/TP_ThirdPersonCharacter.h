@@ -27,9 +27,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
 	float TurnRateGamepad;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UAIPerceptionStimuliSourceComponent* Perception;
-
 protected:
 
 	/** Called for forwards/backward input */

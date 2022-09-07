@@ -13,7 +13,6 @@
 
 ATP_ThirdPersonCharacter::ATP_ThirdPersonCharacter()
 {
-	Perception = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>("Perception");
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
