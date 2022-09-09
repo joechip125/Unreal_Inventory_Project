@@ -16,6 +16,9 @@ public:
 	// Sets default values for this actor's properties
 	ACollectableObject();
 
+	/**
+	* This is a movement component
+	*/
 	UPROPERTY()
 	UFloatMoveComp* moveComp;
 
