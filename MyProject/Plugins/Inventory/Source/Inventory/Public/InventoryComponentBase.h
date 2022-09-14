@@ -8,7 +8,7 @@
 #include "InventoryComponentBase.generated.h"
 
 
-#define PRINT_INFO(GEngine->);
+#define PRINT_INFO(Text)GEngine->AddOnscreenDebugMessage(-1, 15, FColor::Orange, Text);
 
 USTRUCT(BlueprintType)
 struct FItems
@@ -22,8 +22,7 @@ struct FItems
 	UItemPDA* item;
 };
 
-DECLARE_MULTICAST_DELEGATE(FMulticastDelegateSignature);
-DECLARE_MULTICAST_DELEGATE(FMulticastDelegateSignature2);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMulticastOneParam, FItems, item);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class INVENTORY_API UInventoryComponentBase : public UActorComponent
@@ -34,10 +33,8 @@ public:
 	// Sets default values for this component's properties
 	UInventoryComponentBase();
 	
-	//UPROPERTY(BlueprintAssignable)
-	//FMulticastDelegateSignature2 sig2;
-
-	FMulticastDelegateSignature2 sagsdg;
+	UPROPERTY(BlueprintAssignable)
+	FMulticastOneParam OnInventoryChanged;
 
 	UPROPERTY(BlueprintReadWrite)
 	TArray<FItems> Items;
@@ -47,6 +44,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	TArray<FItems>& GetItems();
+
+	UFUNCTION(BlueprintCallable)
+	bool RemoveItem(const FItems& item);
 
 protected:
 	// Called when the game starts

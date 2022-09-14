@@ -17,12 +17,25 @@ UInventoryComponentBase::UInventoryComponentBase()
 
 void UInventoryComponentBase::AddItem(const FItems& item)
 {
+	OnInventoryChanged.Broadcast(item);
 	Items.Add(item);
 }
 
 TArray<FItems>& UInventoryComponentBase::GetItems()
 {
 	return Items;
+}
+
+bool UInventoryComponentBase::RemoveItem(const FItems& item)
+{
+	return Items.Remove(item) > 0;
+	
+	for (int i = 0; i < Items.Num(); i++)
+	{
+		
+	}
+	
+	return false;
 }
 
 // Called when the game starts
