@@ -5,22 +5,10 @@
 #include "CoreMinimal.h"
 #include "ItemPDA.h"
 #include "Components/ActorComponent.h"
+#include "InventoryStructs.h"
 #include "InventoryComponentBase.generated.h"
 
-
 #define PRINT_INFO(Text)GEngine->AddOnscreenDebugMessage(-1, 15, FColor::Orange, Text);
-
-USTRUCT(BlueprintType)
-struct FItems
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadWrite)
-	float durability;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	UItemPDA* item;
-};
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMulticastOneParam, FItems, item);
 
