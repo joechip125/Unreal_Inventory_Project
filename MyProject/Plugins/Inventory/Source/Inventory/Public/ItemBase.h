@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagAssetInterface.h"
 #include "Engine/StaticMeshActor.h"
 #include "ItemBase.generated.h"
-
 UCLASS()
-class INVENTORY_API AItemBase : public AStaticMeshActor
+class INVENTORY_API AItemBase : public AStaticMeshActor, public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 
@@ -20,6 +20,14 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
+
+	UFUNCTION(BlueprintCallable)
+	void SetOwnedGameplayTags(const FGameplayTagContainer& NewContainer);
+
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+
+private:
+	FGameplayTagContainer OwnedTags;
 };

@@ -18,9 +18,19 @@ void AItemBase::BeginPlay()
 	
 }
 
+void AItemBase::SetOwnedGameplayTags(const FGameplayTagContainer& NewContainer)
+{
+	OwnedTags = NewContainer;
+}
+
 // Called every frame
 void AItemBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AItemBase::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	TagContainer = OwnedTags;
 }
 
