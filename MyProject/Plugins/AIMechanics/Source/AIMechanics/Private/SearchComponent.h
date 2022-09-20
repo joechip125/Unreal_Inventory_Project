@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "StructContainer.h"
 #include "Components/ActorComponent.h"
 #include "SearchComponent.generated.h"
 
@@ -24,6 +25,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point);
+
+	UFUNCTION(BlueprintCallable)
+	void DrawDebugLines();
+
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FSearchAreaStruct> LargePointArray;
 
 	
 protected:

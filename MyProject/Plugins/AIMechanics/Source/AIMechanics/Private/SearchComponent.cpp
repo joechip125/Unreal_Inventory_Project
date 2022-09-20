@@ -24,10 +24,9 @@ void USearchComponent::GetPointGrid(FVector2d GridSize, FVector2d NumberPoints, 
 		{
 			Array.Add(FVector(StartPoint.X, StartPoint.Y + (GridSize.Y * j), StartPoint.Z));
 		}
-
+		
 		StartPoint += FVector(GridSize.X, 0, 0);
 	}
-	
 }
 
 float USearchComponent::GetAngleBetweenVectors(FVector A, FVector B)
@@ -45,6 +44,15 @@ bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwa
 		return true;
 	
 	return false;
+}
+
+void USearchComponent::DrawDebugLines()
+{
+	for(auto [PointPos, PointSeen] : LargePointArray)
+	{
+		DrawDebugLine(GetWorld(), PointPos + FVector(0,0, 200)
+			, PointPos, PointSeen ? FColor::Green : FColor::Red);		
+	}
 }
 
 
