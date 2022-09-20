@@ -30,6 +30,23 @@ void USearchComponent::GetPointGrid(FVector2d GridSize, FVector2d NumberPoints, 
 	
 }
 
+float USearchComponent::GetAngleBetweenVectors(FVector A, FVector B)
+{
+	A.Normalize();
+	B.Normalize();
+	return FMath::Acos(A.Dot(B));
+}
+
+bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point)
+{
+	if(FVector::Distance(ObserverPos, Point) > 1000) return false;
+
+	if(GetAngleBetweenVectors(ObserverForwardVector, ObserverPos - Point) < 45)
+		return true;
+	
+	return false;
+}
+
 
 // Called when the game starts
 void USearchComponent::BeginPlay()

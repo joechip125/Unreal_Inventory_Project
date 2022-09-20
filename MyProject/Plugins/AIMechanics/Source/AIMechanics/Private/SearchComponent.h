@@ -19,6 +19,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void GetPointGrid(FVector2d GridSize, FVector2d NumberPoints, FVector StartPoint);
 
+	UFUNCTION(BlueprintCallable)
+	float GetAngleBetweenVectors(FVector A, FVector B);
+
+	UFUNCTION(BlueprintCallable)
+	bool IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point);
+
+	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
