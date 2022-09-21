@@ -113,17 +113,18 @@ bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwa
 {
 	if(FVector::Distance(ObserverPos, Point) > 500) return false;
 	
-	FCollisionObjectQueryParams Params(FCollisionObjectQueryParams::AllStaticObjects);
-	FHitResult RV_Hit(ForceInit);
-	
-	GetWorld()->LineTraceSingleByObjectType(RV_Hit, ObserverPos, Point + FVector(0,0, 5),  Params);
-
 	//DrawDebugLine(GetWorld(), ObserverPos,Point + FVector(0,0,5),RV_Hit.bBlockingHit ? FColor::Red : FColor::Green);
 	
-	if(RV_Hit.bBlockingHit) return false;
-
 	if(GetAngleBetweenVectors(ObserverForwardVector, Point - ObserverPos) < 45)
+	{
+		FCollisionObjectQueryParams Params(FCollisionObjectQueryParams::AllStaticObjects);
+		FHitResult RV_Hit(ForceInit);
+		GetWorld()->LineTraceSingleByObjectType(RV_Hit, ObserverPos, Point + FVector(0,0, 5),  Params);
+
+		if(RV_Hit.bBlockingHit) return false;
+
 		return true;
+	}
 	
 	return false;
 }
