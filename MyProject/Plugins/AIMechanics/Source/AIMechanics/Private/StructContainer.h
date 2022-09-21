@@ -7,7 +7,7 @@
 #include "StructContainer.generated.h"
 
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FSearchAreaStruct
 {
 	GENERATED_BODY()

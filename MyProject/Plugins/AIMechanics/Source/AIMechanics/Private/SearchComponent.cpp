@@ -3,6 +3,8 @@
 
 #include "SearchComponent.h"
 
+#include <stdbool.h>
+
 
 // Sets default values for this component's properties
 USearchComponent::USearchComponent()
@@ -14,7 +16,7 @@ USearchComponent::USearchComponent()
 	// ...
 }
 
-void USearchComponent::GetPointGrid(FVector2d GridSize, FVector2d NumberPoints, FVector StartPoint)
+void USearchComponent::GetPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint)
 {
 	TArray<FVector> Array;
 	
@@ -33,7 +35,20 @@ float USearchComponent::GetAngleBetweenVectors(FVector A, FVector B)
 {
 	A.Normalize();
 	B.Normalize();
-	return FMath::Acos(A.Dot(B));
+	return FMath::RadiansToDegrees(FMath::Acos(A.Dot(B)));
+}
+
+void USearchComponent::CheckGrid(FVector ObserverPos, FVector ObserverForwardVector)
+{
+	for(auto & [PointPos, PointSeen] : LargePointArray)
+	{
+		if(!IsPointVisible(ObserverPos, ObserverForwardVector, PointPos))
+			continue;
+
+		if(PointSeen) continue;
+
+		PointSeen = true;
+	}
 }
 
 bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point)
@@ -46,12 +61,13 @@ bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwa
 	return false;
 }
 
-void USearchComponent::DrawDebugLines()
+void USearchComponent::DrawDebugLines(TArray<FSearchAreaStruct> SearchArray, float Height, float Thickness)
 {
-	for(auto [PointPos, PointSeen] : LargePointArray)
+	for(auto [PointPos, PointSeen] : SearchArray)
 	{
-		DrawDebugLine(GetWorld(), PointPos + FVector(0,0, 200)
-			, PointPos, PointSeen ? FColor::Green : FColor::Red);		
+		DrawDebugLine(GetWorld(), PointPos + FVector(0,0, Height)
+			, PointPos, PointSeen ? FColor::Green : FColor::Red,
+			false, -1, 0, Thickness);		
 	}
 }
 

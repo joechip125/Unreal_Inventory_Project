@@ -8,7 +8,7 @@
 #include "SearchComponent.generated.h"
 
 
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class AIMECHANICS_API USearchComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -18,19 +18,31 @@ public:
 	USearchComponent();
 	
 	UFUNCTION(BlueprintCallable)
-	void GetPointGrid(FVector2d GridSize, FVector2d NumberPoints, FVector StartPoint);
+	void GetPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
 
 	UFUNCTION(BlueprintCallable)
 	float GetAngleBetweenVectors(FVector A, FVector B);
 
 	UFUNCTION(BlueprintCallable)
+	void CheckGrid(FVector ObserverPos, FVector ObserverForwardVector);
+
+	UFUNCTION(BlueprintCallable)
 	bool IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point);
 
 	UFUNCTION(BlueprintCallable)
-	void DrawDebugLines();
+	void DrawDebugLines(TArray<FSearchAreaStruct> SearchArray, float Height, float Thickness);
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Toggles")
+	bool DrawDebugLarge;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Vectors")
 	TArray<FSearchAreaStruct> LargePointArray;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Vectors")
+	TArray<FSearchAreaStruct> SmallPointArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Vectors", Meta = (MakeEditWidget = true))
+	FVector StartingPoint;
 
 	
 protected:
