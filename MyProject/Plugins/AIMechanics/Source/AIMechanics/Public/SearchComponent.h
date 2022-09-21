@@ -27,7 +27,7 @@ public:
 	void SetSmallPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
 
 	UFUNCTION(BlueprintCallable)
-	void CheckArrayForVisibility(TArray<FSearchAreaStruct> SearchArray, FVector AgentPos, FVector AgentForward);
+	void CheckArrayForVisibility(UPARAM(ref)TArray<FSearchAreaStruct> &SearchArray, FVector AgentPos, FVector AgentForward);
 
 	UFUNCTION(BlueprintCallable)
 	float GetAngleBetweenVectors(FVector A, FVector B);
@@ -49,16 +49,12 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Toggles")
 	bool DrawDebugLarge;
 	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Vectors")
+	UPROPERTY(BlueprintReadWrite, Category="Vectors")
 	TArray<FSearchAreaStruct> LargePointArray;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Vectors")
+	UPROPERTY(BlueprintReadWrite, Category="Vectors")
 	TArray<FSearchAreaStruct> SmallPointArray;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Vectors", Meta = (MakeEditWidget = true))
-	FVector StartingPoint;
-
-	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

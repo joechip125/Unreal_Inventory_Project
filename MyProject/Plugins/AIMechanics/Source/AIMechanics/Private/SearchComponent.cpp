@@ -43,22 +43,28 @@ void USearchComponent::SetSmallPointGrid(FVector2D GridSize, FVector2D NumberPoi
 	SmallPointArray = GetPointGrid(GridSize, NumberPoints, StartPoint);
 }
 
-void USearchComponent::CheckArrayForVisibility(TArray<FSearchAreaStruct> SearchArray, FVector AgentPos, FVector AgentForward)
+void USearchComponent::CheckArrayForVisibility(UPARAM(ref)TArray<FSearchAreaStruct> &SearchArray, FVector AgentPos, FVector AgentForward)
 {
 	for (auto& Point : SearchArray)
 	{
 		if(IsPointVisible(AgentPos, AgentForward, Point.PointPos))
 		{
 			Point.PointState = Clear;
+			Point.PointSeen = true;
 		}
+
+		//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Black, TEXT(Point.PointState));
 	}
+	
+	DrawDebugLines(SearchArray, 100, 4);
 }
 
 float USearchComponent::GetAngleBetweenVectors(FVector A, FVector B)
 {
 	A.Normalize();
 	B.Normalize();
-	return FMath::RadiansToDegrees(FMath::Acos(A.Dot(B)));
+	FVector::DotProduct(A, B);
+	return FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(A, B)));
 }
 
 FVector USearchComponent::FindClosestFreePoint(FVector AgentPos)
@@ -92,7 +98,7 @@ FVector USearchComponent::FindClosestFreePoint(FVector AgentPos)
 
 void USearchComponent::CheckGrid(FVector ObserverPos, FVector ObserverForwardVector)
 {
-	for(auto & Point : LargePointArray)
+	for(auto& Point : LargePointArray)
 	{
 		if(!IsPointVisible(ObserverPos, ObserverForwardVector, Point.PointPos))
 			continue;
@@ -105,16 +111,16 @@ void USearchComponent::CheckGrid(FVector ObserverPos, FVector ObserverForwardVec
 
 bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point)
 {
-	if(FVector::Distance(ObserverPos, Point) > 1000) return false;
+	if(FVector::Distance(ObserverPos, Point) > 500) return false;
 	
-	FCollisionObjectQueryParams Params;
+	FCollisionObjectQueryParams Params(FCollisionObjectQueryParams::AllObjects);
 	FHitResult RV_Hit(ForceInit);
 	
 	GetWorld()->LineTraceSingleByObjectType(RV_Hit, ObserverPos, Point + FVector(0,0, 5),  Params);
 
-	if(RV_Hit.bBlockingHit) return false;
+	//if(RV_Hit.bBlockingHit) return false;
 
-	if(GetAngleBetweenVectors(ObserverForwardVector, ObserverPos - Point) < 45)
+	if(GetAngleBetweenVectors(ObserverForwardVector, Point - ObserverPos) < 45)
 		return true;
 	
 	return false;

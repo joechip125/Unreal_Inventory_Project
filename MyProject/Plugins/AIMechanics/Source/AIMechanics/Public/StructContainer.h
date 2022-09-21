@@ -13,17 +13,18 @@ struct FSearchAreaStruct
 {
 	GENERATED_BODY()
 
-	FSearchAreaStruct()
+	FSearchAreaStruct(TEnumAsByte<ESearchPointState> state = Free)
 	{
+		PointState = state;
 		PointSeen = false;
 		PointState = Free;
 	}
 	
-	FSearchAreaStruct(FVector thePoint, bool pointSeen = false)
+	FSearchAreaStruct(FVector thePoint,TEnumAsByte<ESearchPointState> state = Free,  bool pointSeen = false)
 	{
 		PointPos = thePoint;
 		PointSeen = pointSeen;
-		PointState = Free;
+		PointState = state;
 	}
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
