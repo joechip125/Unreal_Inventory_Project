@@ -54,6 +54,11 @@ void USearchComponent::CheckGrid(FVector ObserverPos, FVector ObserverForwardVec
 bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point)
 {
 	if(FVector::Distance(ObserverPos, Point) > 1000) return false;
+	
+	FCollisionObjectQueryParams Params;
+	FHitResult RV_Hit(ForceInit);
+	
+	GetWorld()->LineTraceSingleByObjectType(RV_Hit, ObserverPos, Point,  Params);
 
 	if(GetAngleBetweenVectors(ObserverForwardVector, ObserverPos - Point) < 45)
 		return true;
