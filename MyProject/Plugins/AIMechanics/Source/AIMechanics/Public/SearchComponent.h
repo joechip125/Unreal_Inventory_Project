@@ -18,10 +18,16 @@ public:
 	USearchComponent();
 	
 	UFUNCTION(BlueprintCallable)
-	void GetPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
+	TArray<FSearchAreaStruct> GetPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
+
+	UFUNCTION(BlueprintCallable)
+	void SetLargePointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
 
 	UFUNCTION(BlueprintCallable)
 	float GetAngleBetweenVectors(FVector A, FVector B);
+
+	UFUNCTION(BlueprintPure)
+	FVector FindClosestFreePoint(FVector AgentPos);
 
 	UFUNCTION(BlueprintCallable)
 	void CheckGrid(FVector ObserverPos, FVector ObserverForwardVector);
@@ -31,6 +37,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DrawDebugLines(TArray<FSearchAreaStruct> SearchArray, float Height, float Thickness);
+
+	FColor GetColorFromEnum(ESearchPointState State);
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Toggles")
 	bool DrawDebugLarge;

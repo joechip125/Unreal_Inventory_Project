@@ -16,19 +16,26 @@ USearchComponent::USearchComponent()
 	// ...
 }
 
-void USearchComponent::GetPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint)
+TArray<FSearchAreaStruct> USearchComponent::GetPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint)
 {
-	TArray<FVector> Array;
+	TArray<FSearchAreaStruct> Array;
 	
 	for (int i = 0; i < NumberPoints.X; i++)
 	{
 		for (int j = 0; j < NumberPoints.Y; j++)
 		{
-			Array.Add(FVector(StartPoint.X, StartPoint.Y + (GridSize.Y * j), StartPoint.Z));
+			Array.Add(FSearchAreaStruct(FVector(StartPoint.X, StartPoint.Y + (GridSize.Y * j), StartPoint.Z)));
 		}
 		
 		StartPoint += FVector(GridSize.X, 0, 0);
 	}
+	
+	return Array;
+}
+
+void USearchComponent::SetLargePointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint)
+{
+	LargePointArray = GetPointGrid(GridSize, NumberPoints, StartPoint);
 }
 
 float USearchComponent::GetAngleBetweenVectors(FVector A, FVector B)
@@ -38,16 +45,37 @@ float USearchComponent::GetAngleBetweenVectors(FVector A, FVector B)
 	return FMath::RadiansToDegrees(FMath::Acos(A.Dot(B)));
 }
 
+FVector USearchComponent::FindClosestFreePoint(FVector AgentPos)
+{
+	float Distance = 99999999;
+	FVector Closest = FVector::ZeroVector;
+	FSearchAreaStruct searchStruct;
+	for(auto& Point : LargePointArray)
+	{
+		if(!Point.PointSeen)
+		{
+			float NewDist = FVector::Distance(Point.PointPos, AgentPos);
+			if(NewDist < Distance)
+			{
+				Distance = NewDist;
+				Closest = Point.PointPos;
+			}
+		}
+	}
+
+	return Closest;
+}
+
 void USearchComponent::CheckGrid(FVector ObserverPos, FVector ObserverForwardVector)
 {
-	for(auto & [PointPos, PointSeen] : LargePointArray)
+	for(auto & Point : LargePointArray)
 	{
-		if(!IsPointVisible(ObserverPos, ObserverForwardVector, PointPos))
+		if(!IsPointVisible(ObserverPos, ObserverForwardVector, Point.PointPos))
 			continue;
 
-		if(PointSeen) continue;
+		if(Point.PointSeen) continue;
 
-		PointSeen = true;
+		Point.PointSeen = true;
 	}
 }
 
@@ -58,7 +86,9 @@ bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwa
 	FCollisionObjectQueryParams Params;
 	FHitResult RV_Hit(ForceInit);
 	
-	GetWorld()->LineTraceSingleByObjectType(RV_Hit, ObserverPos, Point,  Params);
+	GetWorld()->LineTraceSingleByObjectType(RV_Hit, ObserverPos, Point + FVector(0,0, 5),  Params);
+
+	if(RV_Hit.bBlockingHit) return false;
 
 	if(GetAngleBetweenVectors(ObserverForwardVector, ObserverPos - Point) < 45)
 		return true;
@@ -68,11 +98,26 @@ bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwa
 
 void USearchComponent::DrawDebugLines(TArray<FSearchAreaStruct> SearchArray, float Height, float Thickness)
 {
-	for(auto [PointPos, PointSeen] : SearchArray)
+	for(auto Point : SearchArray)
 	{
-		DrawDebugLine(GetWorld(), PointPos + FVector(0,0, Height)
-			, PointPos, PointSeen ? FColor::Green : FColor::Red,
+		DrawDebugLine(GetWorld(), Point.PointPos + FVector(0,0, Height)
+			, Point.PointPos, GetColorFromEnum(Point.PointState),
 			false, -1, 0, Thickness);		
+	}
+}
+
+FColor USearchComponent::GetColorFromEnum(ESearchPointState State)
+{
+	switch (State)
+	{
+		case Free:
+			return FColor::Red;
+		case Taken:
+			return FColor::Yellow;
+		case Clear:
+			return FColor::Green;
+		default:
+			return FColor::Black;
 	}
 }
 
