@@ -33,7 +33,7 @@ struct FSearchAreaStruct
 	bool PointSeen;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	ESearchPointState PointState;
+	TEnumAsByte<ESearchPointState> PointState;
 	
 };
 

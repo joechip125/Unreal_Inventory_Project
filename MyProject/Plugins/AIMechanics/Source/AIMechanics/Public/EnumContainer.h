@@ -6,7 +6,7 @@
 #include "UObject/Object.h"
 #include "EnumContainer.generated.h"
 
-UENUM()
+UENUM(BlueprintType)
 enum ESearchPointState
 {
 	Free,

@@ -38,6 +38,22 @@ void USearchComponent::SetLargePointGrid(FVector2D GridSize, FVector2D NumberPoi
 	LargePointArray = GetPointGrid(GridSize, NumberPoints, StartPoint);
 }
 
+void USearchComponent::SetSmallPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint)
+{
+	SmallPointArray = GetPointGrid(GridSize, NumberPoints, StartPoint);
+}
+
+void USearchComponent::CheckArrayForVisibility(TArray<FSearchAreaStruct> SearchArray, FVector AgentPos, FVector AgentForward)
+{
+	for (auto& Point : SearchArray)
+	{
+		if(IsPointVisible(AgentPos, AgentForward, Point.PointPos))
+		{
+			Point.PointState = Clear;
+		}
+	}
+}
+
 float USearchComponent::GetAngleBetweenVectors(FVector A, FVector B)
 {
 	A.Normalize();
@@ -50,6 +66,8 @@ FVector USearchComponent::FindClosestFreePoint(FVector AgentPos)
 	float Distance = 99999999;
 	FVector Closest = FVector::ZeroVector;
 	FSearchAreaStruct searchStruct;
+	int counter = 0;
+	int countHolder = 0;
 	for(auto& Point : LargePointArray)
 	{
 		if(!Point.PointSeen)
@@ -59,10 +77,16 @@ FVector USearchComponent::FindClosestFreePoint(FVector AgentPos)
 			{
 				Distance = NewDist;
 				Closest = Point.PointPos;
+				searchStruct = Point;
+				countHolder = counter;
 			}
 		}
+		
+		counter++;
 	}
-
+	searchStruct.PointState = Taken;
+	LargePointArray[countHolder] = searchStruct;
+	
 	return Closest;
 }
 

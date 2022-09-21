@@ -24,6 +24,12 @@ public:
 	void SetLargePointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
 
 	UFUNCTION(BlueprintCallable)
+	void SetSmallPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
+
+	UFUNCTION(BlueprintCallable)
+	void CheckArrayForVisibility(TArray<FSearchAreaStruct> SearchArray, FVector AgentPos, FVector AgentForward);
+
+	UFUNCTION(BlueprintCallable)
 	float GetAngleBetweenVectors(FVector A, FVector B);
 
 	UFUNCTION(BlueprintPure)
