@@ -111,10 +111,8 @@ void USearchComponent::CheckGrid(FVector ObserverPos, FVector ObserverForwardVec
 
 bool USearchComponent::IsPointVisible(FVector ObserverPos, FVector ObserverForwardVector, FVector Point)
 {
-	if(FVector::Distance(ObserverPos, Point) > 500) return false;
-	
-	//DrawDebugLine(GetWorld(), ObserverPos,Point + FVector(0,0,5),RV_Hit.bBlockingHit ? FColor::Red : FColor::Green);
-	
+	if(FVector::Distance(ObserverPos, Point) > 1000) return false;
+
 	if(GetAngleBetweenVectors(ObserverForwardVector, Point - ObserverPos) < 45)
 	{
 		FCollisionObjectQueryParams Params(FCollisionObjectQueryParams::AllStaticObjects);
