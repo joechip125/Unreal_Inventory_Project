@@ -27,6 +27,9 @@ public:
 	void SetSmallPointGrid(FVector2D GridSize, FVector2D NumberPoints, FVector StartPoint);
 
 	UFUNCTION(BlueprintCallable)
+	TArray<FVector> GetUnseenPoints(TArray<FSearchAreaStruct> SearchArray);
+	
+	UFUNCTION(BlueprintCallable)
 	void CheckArrayForVisibility(UPARAM(ref)TArray<FSearchAreaStruct> &SearchArray, FVector AgentPos, FVector AgentForward);
 
 	UFUNCTION(BlueprintCallable)

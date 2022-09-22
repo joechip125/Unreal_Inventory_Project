@@ -43,6 +43,20 @@ void USearchComponent::SetSmallPointGrid(FVector2D GridSize, FVector2D NumberPoi
 	SmallPointArray = GetPointGrid(GridSize, NumberPoints, StartPoint);
 }
 
+TArray<FVector> USearchComponent::GetUnseenPoints(TArray<FSearchAreaStruct> SearchArray)
+{
+	TArray<FVector> OutArray;
+	for(auto Point : SearchArray)
+	{
+		if(Point.PointState == Free)
+		{
+			OutArray.Add(Point.PointPos);
+		}
+	}
+	
+	return OutArray;
+}
+
 void USearchComponent::CheckArrayForVisibility(UPARAM(ref)TArray<FSearchAreaStruct> &SearchArray, FVector AgentPos, FVector AgentForward)
 {
 	for (auto& Point : SearchArray)
@@ -50,12 +64,8 @@ void USearchComponent::CheckArrayForVisibility(UPARAM(ref)TArray<FSearchAreaStru
 		if(IsPointVisible(AgentPos, AgentForward, Point.PointPos))
 		{
 			Point.PointState = Clear;
-			Point.PointSeen = true;
 		}
-
-		//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Black, TEXT(Point.PointState));
 	}
-	
 	DrawDebugLines(SearchArray, 100, 4);
 }
 
