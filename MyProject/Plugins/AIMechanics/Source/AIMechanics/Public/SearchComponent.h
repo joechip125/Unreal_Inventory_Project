@@ -57,6 +57,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category="Vectors")
 	TArray<FSearchAreaStruct> SmallPointArray;
+	
+	
+	UPROPERTY(EditAnywhere, Category = TestBitflag, meta = (Bitmask, BitmaskEnum = "EAreaSearchCriteria"))
+	uint8 ShieldType;
 
 protected:
 	// Called when the game starts
