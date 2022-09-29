@@ -14,4 +14,15 @@ UCLASS()
 class INVENTORY_API UItemEquip : public UItemPDA
 {
 	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UAnimMontage* AttackMontage;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UAnimMontage* EquipMontage;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FName AttachSlot;
+	
 };

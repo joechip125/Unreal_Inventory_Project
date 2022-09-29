@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class INVENTORY_API UItemPDA : public UPrimaryDataAsset
+class INVENTORY_API UItemPDA : public UDataAsset
 {
 	GENERATED_BODY()
 

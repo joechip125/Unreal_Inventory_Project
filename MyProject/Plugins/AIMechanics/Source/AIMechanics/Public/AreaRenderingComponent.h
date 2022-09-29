@@ -8,54 +8,18 @@
 #include "AreaRenderingComponent.generated.h"
 
 
-class FAreaRenderSceneProxy : public FPrimitiveSceneProxy
+class FAreaRenderSceneProxy final : public FDebugRenderSceneProxy
 {
 public:
-	FAreaRenderSceneProxy(const UPrimitiveComponent* InComponent, const FName& ResourceName)
-		: FPrimitiveSceneProxy(InComponent, ResourceName)
+	explicit FAreaRenderSceneProxy(const UPrimitiveComponent* InComponent)
+		: FDebugRenderSceneProxy(InComponent)
 	{
 	}
 
-	explicit FAreaRenderSceneProxy(FPrimitiveSceneProxy const& PrimitiveSceneProxy)
-		: FPrimitiveSceneProxy(PrimitiveSceneProxy)
+	explicit FAreaRenderSceneProxy(FDebugRenderSceneProxy const& DebugRenderSceneProxy)
+		: FDebugRenderSceneProxy(DebugRenderSceneProxy)
 	{
 	}
-
-	struct FDebugBox
-	{
-		FDebugBox(const FBox& InBox, const FColor& InColor)
-			: Box(InBox), Color(InColor)
-		{
-		}
-
-		FDebugBox(const FBox& InBox, const FColor& InColor, const FTransform& InTransform)
-			: Box(InBox), Color(InColor), Transform(InTransform)
-		{
-			
-		}
-
-		FBox Box;
-		FColor Color;
-		FTransform Transform;
-	};
-	
-	struct FText3d
-	{
-		FText3d() {}
-		FText3d(const FString& InString, const FVector& InLocation, const FLinearColor& InColor) :
-		Text(InString),
-		Location(InLocation),
-		Color(InColor.ToFColor(true)) {}
-
-		FString Text;
-		FVector Location;
-		FColor Color;
-	};
-	
-	
-
-	TArray<FDebugBox> Boxes;
-	TArray<FText3d> Texts;
 };
 
 UCLASS()
