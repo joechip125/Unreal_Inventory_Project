@@ -11,6 +11,8 @@ class AIMECHANICS_API ACommanderBase : public ACharacter
 {
 	GENERATED_BODY()
 
+	friend class FAreaComponentVisualizer;
+
 public:
 	// Sets default values for this character's properties
 	ACommanderBase();

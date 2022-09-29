@@ -3,6 +3,7 @@
 #include "AIMechanics.h"
 
 #include "AreaComponentVisualizer.h"
+#include "CommanderBase.h"
 #include "EnvInfo.h"
 #include "UnrealEdGlobals.h"
 #include "Editor/UnrealEdEngine.h"
@@ -16,7 +17,7 @@ void FAIMechanicsModule::StartupModule()
 		TSharedPtr<FAreaComponentVisualizer> compPtr = MakeShareable(new FAreaComponentVisualizer());
 		if(compPtr.IsValid())
 		{
-			GUnrealEd->RegisterComponentVisualizer(UEnvInfo::StaticClass()->GetFName(), compPtr);
+			GUnrealEd->RegisterComponentVisualizer(ACommanderBase::StaticClass()->GetFName(), compPtr);
 			compPtr->OnRegister();
 		}
 	}
@@ -27,7 +28,7 @@ void FAIMechanicsModule::ShutdownModule()
 {
 	if(GUnrealEd)
 	{
-		GUnrealEd->UnregisterComponentVisualizer(UEnvInfo::StaticClass()->GetFName());
+		GUnrealEd->UnregisterComponentVisualizer(ACommanderBase::StaticClass()->GetFName());
 	}
 }
 
