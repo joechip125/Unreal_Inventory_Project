@@ -2,17 +2,33 @@
 
 #include "AIMechanics.h"
 
+#include "AreaComponentVisualizer.h"
+#include "EnvInfo.h"
+#include "UnrealEdGlobals.h"
+#include "Editor/UnrealEdEngine.h"
+
 #define LOCTEXT_NAMESPACE "FAIMechanicsModule"
 
 void FAIMechanicsModule::StartupModule()
 {
+	if(GUnrealEd)
+	{
+		TSharedPtr<FAreaComponentVisualizer> compPtr = MakeShareable(new FAreaComponentVisualizer());
+		if(compPtr.IsValid())
+		{
+			GUnrealEd->RegisterComponentVisualizer(UEnvInfo::StaticClass()->GetFName(), compPtr);
+			compPtr->OnRegister();
+		}
+	}
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 }
 
 void FAIMechanicsModule::ShutdownModule()
 {
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
+	if(GUnrealEd)
+	{
+		GUnrealEd->UnregisterComponentVisualizer(UEnvInfo::StaticClass()->GetFName());
+	}
 }
 
 #undef LOCTEXT_NAMESPACE
