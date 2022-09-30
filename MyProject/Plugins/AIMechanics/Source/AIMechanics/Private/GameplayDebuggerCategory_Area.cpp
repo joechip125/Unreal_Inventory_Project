@@ -7,3 +7,8 @@ FGameplayDebuggerCategory_Area::FGameplayDebuggerCategory_Area()
 {
 	
 }
+
+TSharedRef<FGameplayDebuggerCategory> FGameplayDebuggerCategory_Area::MakeInstance()
+{
+	return MakeShareable(new FGameplayDebuggerCategory_Area());
+}
