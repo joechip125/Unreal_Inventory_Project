@@ -12,7 +12,7 @@ ACommanderBase::ACommanderBase()
 
 	RenderComp = CreateDefaultSubobject<UAreaRenderingComponent>(TEXT("RenderComp"));
 	RenderComp->SetupAttachment(GetRootComponent());
-	RenderComp->Lines.Add(FAreaRenderSceneProxy::FDebugLine(GetActorLocation(), GetActorLocation() + FVector(0,0,200), FColor::Red, 10));
+	RenderComp->Lines.Add(FEditorVisLine(GetActorLocation(), GetActorLocation() + FVector(0,0,200), FColor::Red));
 }
 
 // Called when the game starts or when spawned

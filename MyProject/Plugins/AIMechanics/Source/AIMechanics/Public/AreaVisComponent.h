@@ -8,7 +8,7 @@
 
 
 USTRUCT(BlueprintType)
-struct STEVESUEHELPERS_API FEditorVisLine
+struct FEditorVisLine
 {
 	GENERATED_BODY()
 
@@ -20,20 +20,20 @@ struct STEVESUEHELPERS_API FEditorVisLine
 	FVector End;
 	/// The colour of the line render 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FColor Colour;
+	FColor Color;
 
 	FEditorVisLine(const FVector& InStart, const FVector& InEnd,
 						 const FColor& InColour)
 		: Start(InStart),
 		  End(InEnd),
-		  Colour(InColour)
+		  Color(InColour)
 	{
 	}
 
 	FEditorVisLine():
 		Start(FVector::ZeroVector),
 		End(FVector(100, 0, 0)),
-		Colour(FColor::White)
+		Color(FColor::White)
 	{
 	}
 };

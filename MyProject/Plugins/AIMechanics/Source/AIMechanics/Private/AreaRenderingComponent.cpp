@@ -12,7 +12,7 @@ UAreaRenderingComponent::UAreaRenderingComponent(const FObjectInitializer& Objec
 	SetIsVisualizationComponent(true);
 #endif
 
-	SetHiddenInGame(true);
+	SetHiddenInGame(false);
 	bVisibleInReflectionCaptures = false;
 	bVisibleInRayTracing = false;
 	bVisibleInRealTimeSkyCaptures = false;
@@ -20,7 +20,7 @@ UAreaRenderingComponent::UAreaRenderingComponent(const FObjectInitializer& Objec
 	bIsEditorOnly = true;
 }
 
-FDebugRenderSceneProxy* UAreaRenderingComponent::CreateDebugSceneProxy()
+FPrimitiveSceneProxy*  UAreaRenderingComponent::CreateSceneProxy()
 {
 	auto Proxy = new FAreaRenderSceneProxy(this);
 
@@ -29,7 +29,7 @@ FDebugRenderSceneProxy* UAreaRenderingComponent::CreateDebugSceneProxy()
 	for(auto& L : Lines)
 	{
 		Proxy->Lines.Add(FDebugRenderSceneProxy::FDebugLine(XForm.TransformPosition(L.Start),
-														  XForm.TransformPosition(L.End), L.Color));
+														  XForm.TransformPosition(L.End), L.Color, 10));
 	}
 	
 	return Proxy;

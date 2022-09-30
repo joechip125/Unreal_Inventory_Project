@@ -4,24 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "AreaRenderSceneProxy.h"
+#include "AreaVisComponent.h"
 #include "Debug/DebugDrawComponent.h"
 #include "UObject/Object.h"
 #include "AreaRenderingComponent.generated.h"
 
 
-UCLASS(Blueprintable)
-class AIMECHANICS_API UAreaRenderingComponent : public UDebugDrawComponent
+UCLASS(Blueprintable, hidecategories=(Collision,Physics,Object,LOD,Lighting,TextureStreaming))
+class AIMECHANICS_API UAreaRenderingComponent : public UPrimitiveComponent
 {
 	GENERATED_BODY()
 public:
 	UAreaRenderingComponent(const FObjectInitializer& ObjectInitializer);
 	
 protected:
-	virtual FDebugRenderSceneProxy* CreateDebugSceneProxy() override;
+	virtual FPrimitiveSceneProxy* CreateSceneProxy() override;
 public:
 	virtual FBoxSphereBounds CalcBounds(const FTransform& LocalToWorld) const override;
+
+	virtual bool ShouldRecreateProxyOnUpdateTransform() const override { return true; }
 public:
 	
-	TArray<FAreaRenderSceneProxy::FDebugBox> Boxes;
-	TArray<FAreaRenderSceneProxy::FDebugLine> Lines;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FEditorVisLine> Lines;
 };
