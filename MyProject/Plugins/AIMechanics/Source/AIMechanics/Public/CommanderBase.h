@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AreaRenderingComponent.h"
 #include "GameFramework/Character.h"
 #include "CommanderBase.generated.h"
 
@@ -16,6 +17,10 @@ class AIMECHANICS_API ACommanderBase : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ACommanderBase();
+
+	UPROPERTY()
+	UAreaRenderingComponent* RenderComp;
+	
 
 protected:
 	// Called when the game starts or when spawned

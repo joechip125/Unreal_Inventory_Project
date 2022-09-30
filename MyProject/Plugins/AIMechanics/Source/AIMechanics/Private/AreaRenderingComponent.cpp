@@ -32,5 +32,19 @@ FDebugRenderSceneProxy* UAreaRenderingComponent::CreateDebugSceneProxy()
 														  XForm.TransformPosition(L.End), FColor::Purple));
 	}
 	
-	return Super::CreateDebugSceneProxy();
+	return Proxy;
+}
+
+FBoxSphereBounds UAreaRenderingComponent::CalcBounds(const FTransform& LocalToWorld) const
+{
+	FBoxSphereBounds B = Super::CalcBounds(LocalToWorld);
+
+	for (auto& L : Lines)
+	{
+		// Re-centre the origin of the line to make box extents 
+		FVector Extents = L.Start.GetAbs().ComponentMax(L.End.GetAbs());
+		B = B + FBoxSphereBounds(FVector::ZeroVector, Extents, Extents.GetMax());
+	}
+
+	return B;
 }

@@ -9,6 +9,10 @@ ACommanderBase::ACommanderBase()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	RenderComp = CreateDefaultSubobject<UAreaRenderingComponent>(TEXT("RenderComp"));
+	RenderComp->SetupAttachment(GetRootComponent());
+	RenderComp->Lines.Add(FAreaRenderSceneProxy::FDebugLine{GetActorLocation(), GetActorLocation() + FVector(0,0,200), FColor::Red});
 }
 
 // Called when the game starts or when spawned

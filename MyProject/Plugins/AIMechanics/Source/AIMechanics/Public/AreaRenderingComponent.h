@@ -54,7 +54,9 @@ public:
 	
 protected:
 	virtual FDebugRenderSceneProxy* CreateDebugSceneProxy() override;
-private:
+public:
+	virtual FBoxSphereBounds CalcBounds(const FTransform& LocalToWorld) const override;
+public:
 	TArray<FAreaRenderSceneProxy::FDebugBox> Boxes;
 	TArray<FAreaRenderSceneProxy::FDebugLine> Lines;
 };
