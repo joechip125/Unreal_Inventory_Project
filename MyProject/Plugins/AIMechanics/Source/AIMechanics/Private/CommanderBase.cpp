@@ -28,9 +28,21 @@ void ACommanderBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ACommanderBase::UpdateVis()
+{
+	RenderComp->MarkRenderStateDirty();
+}
+
 // Called to bind functionality to input
 void ACommanderBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void ACommanderBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	UpdateVis();
 }
 

@@ -3,7 +3,10 @@
 
 #include "AreaRenderingComponent.h"
 
+#include "AreaRenderSceneProxy.h"
+
 UAreaRenderingComponent::UAreaRenderingComponent(const FObjectInitializer& ObjectInitializer)
+: UPrimitiveComponent(ObjectInitializer)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	SetCastShadow(false);
@@ -12,7 +15,7 @@ UAreaRenderingComponent::UAreaRenderingComponent(const FObjectInitializer& Objec
 	SetIsVisualizationComponent(true);
 #endif
 
-	SetHiddenInGame(false);
+	SetHiddenInGame(true);
 	bVisibleInReflectionCaptures = false;
 	bVisibleInRayTracing = false;
 	bVisibleInRealTimeSkyCaptures = false;
@@ -46,5 +49,5 @@ FBoxSphereBounds UAreaRenderingComponent::CalcBounds(const FTransform& LocalToWo
 		B = B + FBoxSphereBounds(FVector::ZeroVector, Extents, Extents.GetMax());
 	}
 
-	return B;
+	return B.TransformBy(LocalToWorld);
 }

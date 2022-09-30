@@ -3,14 +3,43 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AreaRenderSceneProxy.h"
-#include "AreaVisComponent.h"
 #include "Debug/DebugDrawComponent.h"
-#include "UObject/Object.h"
 #include "AreaRenderingComponent.generated.h"
 
 
-UCLASS(Blueprintable, hidecategories=(Collision,Physics,Object,LOD,Lighting,TextureStreaming))
+USTRUCT(BlueprintType)
+struct AIMECHANICS_API FEditorVisLine
+{
+	GENERATED_BODY()
+
+	/// Start location relative to component
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector Start;
+	/// End location relative to component
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector End;
+	/// The colour of the line render 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FColor Color;
+
+	FEditorVisLine(const FVector& InStart, const FVector& InEnd,
+						 const FColor& InColour)
+		: Start(InStart),
+		  End(InEnd),
+		  Color(InColour)
+	{
+	}
+
+	FEditorVisLine():
+		Start(FVector::ZeroVector),
+		End(FVector(100, 0, 0)),
+		Color(FColor::White)
+	{
+	}
+};
+
+
+UCLASS(Blueprintable, meta=(DisplayName="Editor Visualisation", BlueprintSpawnableComponent), hidecategories=(Collision,Physics,Object,LOD,Lighting,TextureStreaming))
 class AIMECHANICS_API UAreaRenderingComponent : public UPrimitiveComponent
 {
 	GENERATED_BODY()
