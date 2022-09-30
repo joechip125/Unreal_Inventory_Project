@@ -29,7 +29,7 @@ FDebugRenderSceneProxy* UAreaRenderingComponent::CreateDebugSceneProxy()
 	for(auto& L : Lines)
 	{
 		Proxy->Lines.Add(FDebugRenderSceneProxy::FDebugLine(XForm.TransformPosition(L.Start),
-														  XForm.TransformPosition(L.End), FColor::Purple));
+														  XForm.TransformPosition(L.End), L.Color));
 	}
 	
 	return Proxy;
