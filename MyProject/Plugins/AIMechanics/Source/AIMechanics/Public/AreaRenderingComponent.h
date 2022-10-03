@@ -11,14 +11,11 @@ USTRUCT(BlueprintType)
 struct AIMECHANICS_API FEditorVisLine
 {
 	GENERATED_BODY()
-
-	/// Start location relative to component
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Start;
-	/// End location relative to component
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector End;
-	/// The colour of the line render 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FColor Color;
 
