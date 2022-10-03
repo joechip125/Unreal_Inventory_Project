@@ -22,18 +22,30 @@ struct AIMECHANICS_API FEditorVisLine
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FColor Color;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float LineThickness;
+
 	FEditorVisLine(const FVector& InStart, const FVector& InEnd,
 						 const FColor& InColour)
 		: Start(InStart),
 		  End(InEnd),
-		  Color(InColour)
+		  Color(InColour), LineThickness(0)
+	{
+	}
+	FEditorVisLine(const FVector& InStart, const FVector& InEnd,
+						 const FColor& InColour, const float& LineThickness)
+		: Start(InStart),
+		  End(InEnd),
+		  Color(InColour),
+		  LineThickness(LineThickness)
 	{
 	}
 
 	FEditorVisLine():
 		Start(FVector::ZeroVector),
 		End(FVector(100, 0, 0)),
-		Color(FColor::White)
+		Color(FColor::White),
+		LineThickness(10)
 	{
 	}
 };

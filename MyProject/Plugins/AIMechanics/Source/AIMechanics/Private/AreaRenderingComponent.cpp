@@ -32,7 +32,7 @@ FPrimitiveSceneProxy*  UAreaRenderingComponent::CreateSceneProxy()
 	for(auto& L : Lines)
 	{
 		Proxy->Lines.Add(FDebugRenderSceneProxy::FDebugLine(XForm.TransformPosition(L.Start),
-														  XForm.TransformPosition(L.End), L.Color, 10));
+														  XForm.TransformPosition(L.End), L.Color, L.LineThickness));
 	}
 	
 	return Proxy;
