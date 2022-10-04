@@ -16,7 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	ARenderingComponentHandler();
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UAreaRenderingComponent* RenderComponent;
 
 	UPROPERTY()
@@ -28,6 +28,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetArray(int numX, int numY, float distance, FVector start);
+
+	void TraceSomething(FVector start, FVector end);
 
 protected:
 	// Called when the game starts or when spawned

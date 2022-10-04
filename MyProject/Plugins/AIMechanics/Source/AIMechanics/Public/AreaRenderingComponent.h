@@ -14,34 +14,39 @@ struct AIMECHANICS_API FEditorVisCube
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Position;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator Rotation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Size;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FColor Color;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float LineThickness;
 
 	FEditorVisCube(const FVector& InPos, const FVector& InSize,
 						 const FColor& InColour)
 		: Position(InPos),
+		  Rotation(FRotator::ZeroRotator),
 		  Size(InSize),
-		  Color(InColour), LineThickness(0)
+	      Color(InColour),
+		  LineThickness(0)	
 	{
 	}
 	FEditorVisCube(const FVector& InPos, const FVector& InSize,
 						 const FColor& InColour, const float& LineThickness)
 		: Position(InPos),
+		  Rotation(FRotator::ZeroRotator),
 		  Size(InSize),
 		  Color(InColour),
-		  LineThickness(LineThickness)
+		  LineThickness(LineThickness)	
 	{
 	}
 
 	FEditorVisCube():
 		Position(FVector::ZeroVector),
+		Rotation(FRotator::ZeroRotator),
 		Size(FVector(100, 0, 0)),
 		Color(FColor::White),
-		LineThickness(10)
+	    LineThickness(10)	
 	{
 	}
 };
