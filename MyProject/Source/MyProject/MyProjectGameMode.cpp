@@ -13,7 +13,7 @@ AMyProjectGameMode::AMyProjectGameMode()
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/FirstPerson/Blueprints/BP_FirstPersonCharacter"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
-	//auto blekr = CreateDefaultSubobject<UFloatMoveComp>(TEXT("hip"));
+	//auto blekr = CreateDefaultSubobject<UFloatMoveComp>(TEXT("floating"));
 	
 
 }
