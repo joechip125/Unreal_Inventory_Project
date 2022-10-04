@@ -13,14 +13,5 @@ class AIMECHANICS_API AAreaControlVolume : public AVolume
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AAreaControlVolume();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	explicit AAreaControlVolume(const FObjectInitializer& ObjectInitializer);
 };

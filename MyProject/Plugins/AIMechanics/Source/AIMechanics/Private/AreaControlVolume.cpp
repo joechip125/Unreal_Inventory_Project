@@ -2,25 +2,21 @@
 
 
 #include "AreaControlVolume.h"
+#include "Components/BrushComponent.h"
 
-
-// Sets default values
-AAreaControlVolume::AAreaControlVolume()
+AAreaControlVolume::AAreaControlVolume(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-}
+	static FName CollisionProfileName(TEXT("AreaVolume"));
+	GetBrushComponent()->SetCollisionProfileName(CollisionProfileName);
 
-// Called when the game starts or when spawned
-void AAreaControlVolume::BeginPlay()
-{
-	Super::BeginPlay();
+	bColored = true;
+	BrushColor.R = 100;
+	BrushColor.G = 255;
+	BrushColor.B = 100;
+	BrushColor.A = 255;
 	
 }
 
-// Called every frame
-void AAreaControlVolume::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
+
 

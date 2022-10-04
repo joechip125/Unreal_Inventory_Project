@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AreaControlVolume.h"
 #include "GameFramework/Actor.h"
 #include "RenderArea.generated.h"
 
@@ -12,6 +13,10 @@ class AIMECHANICS_API ARenderArea : public AActor
 	GENERATED_BODY()
 
 public:
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	AAreaControlVolume* AreaVolume;
+	
 	// Sets default values for this actor's properties
 	ARenderArea();
 
