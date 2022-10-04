@@ -26,7 +26,7 @@ void ARenderingComponentHandler::SetArray(int numX, int numY, float distance, FV
 		{
 			auto Line = FEditorVisLine(start + FVector(0, distance * j, 0), start + FVector(0,distance * j, 1000), FColor::Emerald, 5);
 			RenderComponent->Lines.Add(Line);
-			TraceSomething(start + FVector(0,distance * j, 100), start + FVector(500,distance * j,100));
+			//TraceSomething(start + FVector(0,distance * j, 100), start + FVector(500,distance * j,100));
 		}
 		
 		start += FVector(distance, 0, 0);
