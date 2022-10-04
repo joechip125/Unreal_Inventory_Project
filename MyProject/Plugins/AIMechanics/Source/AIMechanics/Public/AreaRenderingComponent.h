@@ -6,6 +6,46 @@
 #include "Debug/DebugDrawComponent.h"
 #include "AreaRenderingComponent.generated.h"
 
+USTRUCT(BlueprintType)
+struct AIMECHANICS_API FEditorVisCube
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector Position;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector Size;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FColor Color;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float LineThickness;
+
+	FEditorVisCube(const FVector& InPos, const FVector& InSize,
+						 const FColor& InColour)
+		: Position(InPos),
+		  Size(InSize),
+		  Color(InColour), LineThickness(0)
+	{
+	}
+	FEditorVisCube(const FVector& InPos, const FVector& InSize,
+						 const FColor& InColour, const float& LineThickness)
+		: Position(InPos),
+		  Size(InSize),
+		  Color(InColour),
+		  LineThickness(LineThickness)
+	{
+	}
+
+	FEditorVisCube():
+		Position(FVector::ZeroVector),
+		Size(FVector(100, 0, 0)),
+		Color(FColor::White),
+		LineThickness(10)
+	{
+	}
+};
+
 
 USTRUCT(BlueprintType)
 struct AIMECHANICS_API FEditorVisLine
@@ -61,8 +101,11 @@ public:
 	virtual FBoxSphereBounds CalcBounds(const FTransform& LocalToWorld) const override;
 
 	virtual bool ShouldRecreateProxyOnUpdateTransform() const override { return true; }
-public:
+	
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FEditorVisLine> Lines;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FEditorVisCube> Cubes;
 };
