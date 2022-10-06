@@ -14,7 +14,7 @@ ARenderingComponentHandler::ARenderingComponentHandler()
 	RenderComponent->SetupAttachment(GetRootComponent());
 }
 
-void ARenderingComponentHandler::SetArray(int numX, int numY, float distance, FVector start)
+void ARenderingComponentHandler::SetArray(int numX, int numY, float distance, FVector start, FColor Color)
 {
 	
 	RenderComponent->Lines.Empty();

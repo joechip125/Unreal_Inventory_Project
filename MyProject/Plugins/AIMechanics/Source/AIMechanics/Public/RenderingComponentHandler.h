@@ -27,7 +27,7 @@ public:
 	float distanceBetween;
 
 	UFUNCTION(BlueprintCallable)
-	void SetArray(int numX, int numY, float distance, FVector start);
+	void SetArray(int numX, int numY, float distance, FVector start, FColor Color);
 
 	void TraceSomething(FVector start, FVector end);
 
