@@ -35,6 +35,13 @@ void AScanner::CircleScan(FVector Center, float Radius, int numberScans)
 		float theCos = FMath::Cos(FMath::DegreesToRadians(degree)) * Radius;
 		auto pos = Center + FVector(theCos, theSin,0);
 		auto hit = DoATrace(pos, Center);
+
+		if(hit.bBlockingHit)
+		{
+			pos = hit.Location;
+			auto cube = FEditorVisCube(pos, FVector(10,10,10), FColor::Emerald);
+			RenderComponent->Cubes.Add(cube);
+		}
 		
 		auto line = FEditorVisLine(pos, Center, hit.bBlockingHit ? FColor::Green : FColor::Red);
 		RenderComponent->Lines.Add(line);

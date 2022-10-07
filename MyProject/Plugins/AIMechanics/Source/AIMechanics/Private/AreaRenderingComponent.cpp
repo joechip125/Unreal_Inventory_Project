@@ -41,7 +41,7 @@ FPrimitiveSceneProxy*  UAreaRenderingComponent::CreateSceneProxy()
 		FVector HalfSize = Box.Size * 0.5f;
 		FBox DBox(-HalfSize, HalfSize);
 		// Apply local rotation first then parent transform
-		FTransform CombinedXForm = FTransform(Box.Rotation, Box.Position) * XForm;
+		FTransform CombinedXForm = FTransform(Box.Rotation, Box.Position);// * XForm;
 		Proxy->Boxes.Add(FDebugRenderSceneProxy::FDebugBox(
 			DBox, Box.Color, CombinedXForm));
 	}
