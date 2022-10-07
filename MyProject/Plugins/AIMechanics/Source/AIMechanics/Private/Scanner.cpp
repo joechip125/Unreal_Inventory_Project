@@ -34,20 +34,21 @@ void AScanner::CircleScan(FVector Center, float Radius, int numberScans)
 		float theSin = FMath::Sin(FMath::DegreesToRadians(degree)) * Radius;
 		float theCos = FMath::Cos(FMath::DegreesToRadians(degree)) * Radius;
 		auto pos = Center + FVector(theCos, theSin,0);
-		DoATrace(pos, Center);
+		auto hit = DoATrace(pos, Center);
 		
-		auto line = FEditorVisLine(pos, Center, FColor::Green);
+		auto line = FEditorVisLine(pos, Center, hit.bBlockingHit ? FColor::Green : FColor::Red);
 		RenderComponent->Lines.Add(line);
 
 		degree += increment;
 	}
 }
 
-void AScanner::DoATrace(FVector Start, FVector End)
+FHitResult AScanner::DoATrace(FVector Start, FVector End)
 {
 	auto HitResult = FHitResult();
 	auto Query = FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic);
 	GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, Query);
+	return HitResult;
 }
 
 // Called every frame

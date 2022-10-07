@@ -23,7 +23,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void CircleScan(FVector Center, float Radius, int numberScans);
 	
-	void DoATrace(FVector Start, FVector End);
+	FHitResult DoATrace(FVector Start, FVector End);
 
 public:
 	// Called every frame
