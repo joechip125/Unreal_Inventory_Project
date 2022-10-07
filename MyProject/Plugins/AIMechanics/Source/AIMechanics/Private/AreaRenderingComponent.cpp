@@ -15,7 +15,7 @@ UAreaRenderingComponent::UAreaRenderingComponent(const FObjectInitializer& Objec
 	SetIsVisualizationComponent(true);
 #endif
 
-	SetHiddenInGame(true);
+	SetHiddenInGame(false);
 	bVisibleInReflectionCaptures = false;
 	bVisibleInRayTracing = false;
 	bVisibleInRealTimeSkyCaptures = false;
