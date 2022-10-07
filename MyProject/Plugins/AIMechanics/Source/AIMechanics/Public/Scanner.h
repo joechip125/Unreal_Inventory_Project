@@ -22,6 +22,11 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void CircleScan(FVector Center, float Radius, int numberScans);
+
+	UFUNCTION(BlueprintCallable)
+	void LineScan(FVector Start, FVector End, int numberScans);
+
+	void AddCube(FVector Pos, FVector Size);
 	
 	FHitResult DoATrace(FVector Start, FVector End);
 

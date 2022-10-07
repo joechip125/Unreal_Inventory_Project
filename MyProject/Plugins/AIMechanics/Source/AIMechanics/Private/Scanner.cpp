@@ -50,6 +50,28 @@ void AScanner::CircleScan(FVector Center, float Radius, int numberScans)
 	}
 }
 
+void AScanner::LineScan(FVector Start, FVector End, int numberScans)
+{
+	float increment = FVector::Distance(Start, End) / numberScans;
+	FVector dir = End - Start;
+	dir.Normalize();
+	FVector current = Start;
+	FVector traceDir = FVector(1,0,0);
+	for(int i = 0; i <  numberScans; i++)
+	{
+		auto hit = DoATrace(current, current + traceDir * 600);
+		auto line = FEditorVisLine(current, current + traceDir * 600, hit.bBlockingHit ? FColor::Green : FColor::Red);
+		RenderComponent->Lines.Add(line);
+		current += FVector(dir.X * increment, dir.Y * increment, dir.Z * increment);
+	}
+}
+
+void AScanner::AddCube(FVector Pos, FVector Size)
+{
+	auto cube = FEditorVisCube(Pos, Size, FColor::Emerald);
+	RenderComponent->Cubes.Add(cube);
+}
+
 FHitResult AScanner::DoATrace(FVector Start, FVector End)
 {
 	auto HitResult = FHitResult();
