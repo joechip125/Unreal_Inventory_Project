@@ -44,4 +44,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UInstancedStaticMeshComponent* CubeInstance;
+
+	UPROPERTY()
+	UMaterialInstanceDynamic* DynamicMaterial;
 };

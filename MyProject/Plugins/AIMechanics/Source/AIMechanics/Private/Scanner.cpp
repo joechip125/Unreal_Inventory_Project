@@ -5,6 +5,7 @@
 
 #include "../../../../Developer/RiderLink/Source/RD/thirdparty/spdlog/include/spdlog/fmt/bundled/format.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
 
 
 // Sets default values
@@ -17,6 +18,20 @@ AScanner::AScanner()
 
 	CubeInstance = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("CubeInstance"));
 	CubeInstance->SetupAttachment(GetRootComponent());
+	CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, FVector::ZeroVector, FVector(1,1,1)));
+	CubeInstance->
+	if(CubeInstance->GetMaterial(0))
+	{
+		auto Material = CubeInstance->GetMaterial(0)->GetMaterial();
+		DynamicMaterial = UMaterialInstanceDynamic::Create(Material, nullptr);
+		CubeInstance->SetMaterial(0, DynamicMaterial);
+		GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material does exist"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material all fucked up"));
+	}
+	CubeInstance->ClearInstances();
 }
 
 // Called when the game starts or when spawned
@@ -58,6 +73,7 @@ void AScanner::ClearAll(int Slack)
 {
 	RenderComponent->Lines.Empty(Slack);
 	RenderComponent->Cubes.Empty(Slack);
+	CubeInstance->ClearInstances();
 }
 
 void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int numberScans)
@@ -77,11 +93,19 @@ void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int number
 		if(hit.bBlockingHit)
 		{
 			TheEnd = hit.Location;
-			auto aColor = hit.GetComponent()->GetMaterial(0)->GetMaterial()->BaseColor.Constant;
-			//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, aColor.ToString());
+			auto aColor = hit.GetComponent()->GetMaterial(0)->GetMaterial()->BaseColor;
+			if(!DynamicMaterial)
+			{
+				GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material all fucked"));
+			}
+			
 			auto cube = FEditorVisCube(TheEnd, cubeSize, FColor::Emerald);
 			if(CanAddCube(TheEnd, cubeSize.X))
 			{
+				//DynamicMaterial->SetVectorParameterValue(TEXT("BaseColor"), FLinearColor(1,1,1,1));
+				//DynamicMaterial->SetScalarParameterValue(TEXT("TestParam"), 50);
+				
+				CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, TheEnd + FVector(1000,0,0), cubeSize / 100));
 				RenderComponent->Cubes.Add(cube);
 			}
 		}
