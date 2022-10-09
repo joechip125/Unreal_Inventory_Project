@@ -5,7 +5,9 @@
 
 #include "../../../../Developer/RiderLink/Source/RD/thirdparty/spdlog/include/spdlog/fmt/bundled/format.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "GenericPlatform/GenericPlatformApplicationMisc.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetRenderingLibrary.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 
@@ -142,12 +144,25 @@ FHitResult AScanner::DoATrace(FVector Start, FVector End)
 {
 	auto HitResult = FHitResult();
 	auto Query = FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic);
-	auto Query2 = FCollisionQueryParams(TEXT("Test"), true);
 	GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, Query);
-	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_WorldStatic, Query2);
-	
 	
 	return HitResult;
+}
+
+FHitResult AScanner::TraceByChannel(FVector Start, FVector End)
+{
+	auto HitResult = FHitResult();
+	auto Query2 = FCollisionQueryParams(TEXT("Test"), true);
+	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_WorldStatic, Query2);
+	return HitResult;
+	
+}
+
+FLinearColor AScanner::SampleScreenPixelColor(FVector WorldSpace)
+{
+	//UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), )
+	return FGenericPlatformApplicationMisc::GetScreenPixelColor(FVector2d(0,0));
+	
 }
 
 void AScanner::GetColorAtHitPoint()

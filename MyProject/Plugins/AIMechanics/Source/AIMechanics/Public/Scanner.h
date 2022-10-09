@@ -41,6 +41,10 @@ protected:
 	
 	FHitResult DoATrace(FVector Start, FVector End);
 
+	FHitResult TraceByChannel(FVector Start, FVector End);
+
+	FLinearColor SampleScreenPixelColor(FVector WorldSpace);
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
