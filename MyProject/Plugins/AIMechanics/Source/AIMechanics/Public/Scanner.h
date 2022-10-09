@@ -24,9 +24,14 @@ protected:
 	void CircleScan(FVector Center, float Radius, int numberScans);
 
 	UFUNCTION(BlueprintCallable)
-	void LineScan(FVector Start, FVector End, int numberScans);
+	void ClearAll(int Slack);
+
+	UFUNCTION(BlueprintCallable)
+	void LineScan(FVector Start, FVector End , FVector traceDir, int numberScans);
 
 	void AddCube(FVector Pos, FVector Size);
+
+	bool CanAddCube(FVector SuggestedPos, float tolerance) const;
 	
 	FHitResult DoATrace(FVector Start, FVector End);
 
@@ -36,4 +41,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UAreaRenderingComponent* RenderComponent;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UInstancedStaticMeshComponent* CubeInstance;
 };

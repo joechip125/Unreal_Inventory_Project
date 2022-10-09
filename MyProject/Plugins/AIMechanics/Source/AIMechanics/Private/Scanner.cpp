@@ -4,6 +4,7 @@
 #include "Scanner.h"
 
 #include "../../../../Developer/RiderLink/Source/RD/thirdparty/spdlog/include/spdlog/fmt/bundled/format.h"
+#include "Components/InstancedStaticMeshComponent.h"
 
 
 // Sets default values
@@ -13,6 +14,9 @@ AScanner::AScanner()
 	PrimaryActorTick.bCanEverTick = true;
 	RenderComponent = CreateDefaultSubobject<UAreaRenderingComponent>(TEXT("RenderComp"));
 	RenderComponent->SetupAttachment(GetRootComponent());
+
+	CubeInstance = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("CubeInstance"));
+	CubeInstance->SetupAttachment(GetRootComponent());
 }
 
 // Called when the game starts or when spawned
@@ -50,15 +54,21 @@ void AScanner::CircleScan(FVector Center, float Radius, int numberScans)
 	}
 }
 
-void AScanner::LineScan(FVector Start, FVector End, int numberScans)
+void AScanner::ClearAll(int Slack)
+{
+	RenderComponent->Lines.Empty(Slack);
+	RenderComponent->Cubes.Empty(Slack);
+}
+
+void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int numberScans)
 {
 	RenderComponent->Lines.Empty(numberScans);
-	RenderComponent->Cubes.Empty(numberScans);
+	//RenderComponent->Cubes.Empty(numberScans);
 	float increment = FVector::Distance(Start, End) / numberScans;
 	FVector dir = End - Start;
 	dir.Normalize();
 	FVector current = Start;
-	FVector traceDir = FVector(1,0,0);
+	FVector cubeSize = FVector(increment);
 	for(int i = 0; i <  numberScans; i++)
 	{
 		FVector TheEnd = current + traceDir * 600;
@@ -67,8 +77,13 @@ void AScanner::LineScan(FVector Start, FVector End, int numberScans)
 		if(hit.bBlockingHit)
 		{
 			TheEnd = hit.Location;
-			auto cube = FEditorVisCube(TheEnd, FVector(10,10,10), FColor::Emerald);
-			RenderComponent->Cubes.Add(cube);
+			auto aColor = hit.GetComponent()->GetMaterial(0)->GetMaterial()->BaseColor.Constant;
+			//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, aColor.ToString());
+			auto cube = FEditorVisCube(TheEnd, cubeSize, FColor::Emerald);
+			if(CanAddCube(TheEnd, cubeSize.X))
+			{
+				RenderComponent->Cubes.Add(cube);
+			}
 		}
 		
 		auto line = FEditorVisLine(current, TheEnd, hit.bBlockingHit ? FColor::Green : FColor::Red);
@@ -81,6 +96,18 @@ void AScanner::AddCube(FVector Pos, FVector Size)
 {
 	auto cube = FEditorVisCube(Pos, Size, FColor::Emerald);
 	RenderComponent->Cubes.Add(cube);
+}
+
+bool AScanner::CanAddCube(FVector SuggestedPos, float tolerance) const
+{
+	for(auto Cube : RenderComponent->Cubes)
+	{
+		if(FVector::Distance(Cube.Position, SuggestedPos) < tolerance)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 FHitResult AScanner::DoATrace(FVector Start, FVector End)
