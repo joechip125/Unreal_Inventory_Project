@@ -18,20 +18,20 @@ AScanner::AScanner()
 
 	CubeInstance = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("CubeInstance"));
 	CubeInstance->SetupAttachment(GetRootComponent());
-	CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, FVector::ZeroVector, FVector(1,1,1)));
-	CubeInstance->
-	if(CubeInstance->GetMaterial(0))
+//	CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, FVector::ZeroVector, FVector(1,1,1)));
+	CubeInstance->NumCustomDataFloats = 3;
+	if(CubeInstance)
 	{
-		auto Material = CubeInstance->GetMaterial(0)->GetMaterial();
-		DynamicMaterial = UMaterialInstanceDynamic::Create(Material, nullptr);
-		CubeInstance->SetMaterial(0, DynamicMaterial);
-		GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material does exist"));
+		//auto Material = CubeInstance->GetMaterial(0)->GetMaterial();
+		//DynamicMaterial = UMaterialInstanceDynamic::Create(Material, nullptr);
+		//CubeInstance->SetMaterial(0, DynamicMaterial);
+		//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material does exist"));
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material all fucked up"));
+		//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material all fucked up"));
 	}
-	CubeInstance->ClearInstances();
+//	CubeInstance->ClearInstances();
 }
 
 // Called when the game starts or when spawned
@@ -94,18 +94,13 @@ void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int number
 		{
 			TheEnd = hit.Location;
 			auto aColor = hit.GetComponent()->GetMaterial(0)->GetMaterial()->BaseColor;
-			if(!DynamicMaterial)
-			{
-				GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material all fucked"));
-			}
+			
 			
 			auto cube = FEditorVisCube(TheEnd, cubeSize, FColor::Emerald);
 			if(CanAddCube(TheEnd, cubeSize.X))
 			{
-				//DynamicMaterial->SetVectorParameterValue(TEXT("BaseColor"), FLinearColor(1,1,1,1));
-				//DynamicMaterial->SetScalarParameterValue(TEXT("TestParam"), 50);
-				
-				CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, TheEnd + FVector(1000,0,0), cubeSize / 100));
+				auto num =CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, TheEnd + FVector(1000,0,0), cubeSize / 100));
+				SetInstanceColor(num, aColor.Constant);
 				RenderComponent->Cubes.Add(cube);
 			}
 		}
@@ -134,13 +129,31 @@ bool AScanner::CanAddCube(FVector SuggestedPos, float tolerance) const
 	return true;
 }
 
+void AScanner::SetInstanceColor(int index, FColor Color)
+{
+	CubeInstance->SetCustomDataValue(index, 0, Color.R);
+	CubeInstance->SetCustomDataValue(index, 1, Color.G);
+	CubeInstance->SetCustomDataValue(index, 2, Color.B);
+	
+}
+
 FHitResult AScanner::DoATrace(FVector Start, FVector End)
 {
 	auto HitResult = FHitResult();
 	auto Query = FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic);
+	auto Query2 = FCollisionQueryParams(TEXT("Test"), true);
 	GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, Query);
+	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_WorldStatic, Query2);
+	HitResult.
 	return HitResult;
 }
+
+void AScanner::GetColorAtHitPoint()
+{
+	
+}
+
+
 
 // Called every frame
 void AScanner::Tick(float DeltaTime)

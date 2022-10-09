@@ -30,8 +30,14 @@ protected:
 	void LineScan(FVector Start, FVector End , FVector traceDir, int numberScans);
 
 	void AddCube(FVector Pos, FVector Size);
+	UFUNCTION(BlueprintCallable)
+	void GetColorAtHitPoint();
+
+
 
 	bool CanAddCube(FVector SuggestedPos, float tolerance) const;
+
+	void SetInstanceColor(int index, FColor Color);
 	
 	FHitResult DoATrace(FVector Start, FVector End);
 
@@ -48,3 +54,9 @@ public:
 	UPROPERTY()
 	UMaterialInstanceDynamic* DynamicMaterial;
 };
+
+
+
+
+
+
