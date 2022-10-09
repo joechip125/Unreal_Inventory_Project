@@ -21,20 +21,10 @@ AScanner::AScanner()
 
 	CubeInstance = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("CubeInstance"));
 	CubeInstance->SetupAttachment(GetRootComponent());
-//	CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, FVector::ZeroVector, FVector(1,1,1)));
 	CubeInstance->NumCustomDataFloats = 3;
-	if(CubeInstance)
-	{
-		//auto Material = CubeInstance->GetMaterial(0)->GetMaterial();
-		//DynamicMaterial = UMaterialInstanceDynamic::Create(Material, nullptr);
-		//CubeInstance->SetMaterial(0, DynamicMaterial);
-		//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material does exist"));
-	}
-	else
-	{
-		//GEngine->AddOnScreenDebugMessage(0, 3, FColor::Cyan, TEXT("Material all fucked up"));
-	}
-//	CubeInstance->ClearInstances();
+
+	RenderTarget = UKismetRenderingLibrary::CreateRenderTarget2D(GetWorld(), 1024, 1024);
+	
 }
 
 // Called when the game starts or when spawned
@@ -158,11 +148,14 @@ FHitResult AScanner::TraceByChannel(FVector Start, FVector End)
 	
 }
 
-FLinearColor AScanner::SampleScreenPixelColor(FVector WorldSpace)
+FLinearColor AScanner::GetUVColorAtLocation(FHitResult HitResult)
 {
-	//UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), )
-	return FGenericPlatformApplicationMisc::GetScreenPixelColor(FVector2d(0,0));
+	FVector2d hitPos = FVector2d::ZeroVector;
+	auto mat = Cast<UStaticMeshComponent>(HitResult.Component)->GetMaterial(0);
 	
+	UGameplayStatics::FindCollisionUV(HitResult, 0, hitPos);
+	UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), RenderTarget, mat);
+	return UKismetRenderingLibrary::ReadRenderTargetRawUV(GetWorld(), RenderTarget, hitPos.X, hitPos.Y);
 }
 
 void AScanner::GetColorAtHitPoint()

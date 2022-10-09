@@ -43,7 +43,7 @@ protected:
 
 	FHitResult TraceByChannel(FVector Start, FVector End);
 
-	FLinearColor SampleScreenPixelColor(FVector WorldSpace);
+	FLinearColor GetUVColorAtLocation(FHitResult HitResult);
 
 public:
 	// Called every frame
@@ -57,6 +57,9 @@ public:
 
 	UPROPERTY()
 	UMaterialInstanceDynamic* DynamicMaterial;
+
+	UPROPERTY()
+	UTextureRenderTarget2D* RenderTarget;
 };
 
 
