@@ -43,6 +43,8 @@ protected:
 
 	FHitResult TraceByChannel(FVector Start, FVector End);
 
+	void SetTargetMaterial(FHitResult HitResult);
+
 	FLinearColor GetUVColorAtLocation(FHitResult HitResult);
 
 public:
@@ -60,6 +62,9 @@ public:
 
 	UPROPERTY()
 	UTextureRenderTarget2D* RenderTarget;
+
+	UPROPERTY()
+	UMaterialInterface* TargetMaterial;
 };
 
 

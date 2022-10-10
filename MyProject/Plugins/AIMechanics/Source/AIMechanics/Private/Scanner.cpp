@@ -86,14 +86,13 @@ void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int number
 		if(hit.bBlockingHit)
 		{
 			TheEnd = hit.Location;
-			auto aColor = hit.GetComponent()->GetMaterial(0)->GetMaterial()->BaseColor;
-			
 			
 			auto cube = FEditorVisCube(TheEnd, cubeSize, FColor::Emerald);
 			if(CanAddCube(TheEnd, cubeSize.X))
 			{
+				auto aColor = GetUVColorAtLocation(hit);
 				auto num =CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, TheEnd + FVector(1000,0,0), cubeSize / 100));
-				SetInstanceColor(num, aColor.Constant);
+				SetInstanceColor(num, aColor.ToRGBE());
 				RenderComponent->Cubes.Add(cube);
 			}
 		}
@@ -148,14 +147,21 @@ FHitResult AScanner::TraceByChannel(FVector Start, FVector End)
 	
 }
 
+void AScanner::SetTargetMaterial(FHitResult HitResult)
+{
+	TargetMaterial = Cast<UStaticMeshComponent>(HitResult.Component)->GetMaterial(0);
+}
+
 FLinearColor AScanner::GetUVColorAtLocation(FHitResult HitResult)
 {
-	FVector2d hitPos = FVector2d::ZeroVector;
-	auto mat = Cast<UStaticMeshComponent>(HitResult.Component)->GetMaterial(0);
+	if(!TargetMaterial) SetTargetMaterial(HitResult);
 	
+	FVector2d hitPos = FVector2d::ZeroVector;
 	UGameplayStatics::FindCollisionUV(HitResult, 0, hitPos);
-	UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), RenderTarget, mat);
-	return UKismetRenderingLibrary::ReadRenderTargetRawUV(GetWorld(), RenderTarget, hitPos.X, hitPos.Y);
+	UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), RenderTarget, TargetMaterial);
+	auto color = UKismetRenderingLibrary::ReadRenderTargetRawUV(GetWorld(), RenderTarget, hitPos.X, hitPos.Y);
+	GEngine->AddOnScreenDebugMessage(0, 4, FColor::Black, color.ToString());
+	return color;
 }
 
 void AScanner::GetColorAtHitPoint()
