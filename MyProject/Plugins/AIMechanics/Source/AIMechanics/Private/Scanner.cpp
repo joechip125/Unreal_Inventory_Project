@@ -15,7 +15,7 @@
 AScanner::AScanner()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	RenderComponent = CreateDefaultSubobject<UAreaRenderingComponent>(TEXT("RenderComp"));
 	RenderComponent->SetupAttachment(GetRootComponent());
 
@@ -23,7 +23,7 @@ AScanner::AScanner()
 	CubeInstance->SetupAttachment(GetRootComponent());
 	CubeInstance->NumCustomDataFloats = 3;
 
-	RenderTarget = UKismetRenderingLibrary::CreateRenderTarget2D(GetWorld(), 1024, 1024);
+	//RenderTarget = UKismetRenderingLibrary::CreateRenderTarget2D(GetWorld(), 1024, 1024);
 	
 }
 
@@ -167,13 +167,5 @@ FLinearColor AScanner::GetUVColorAtLocation(FHitResult HitResult)
 void AScanner::GetColorAtHitPoint()
 {
 	
-}
-
-
-
-// Called every frame
-void AScanner::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 

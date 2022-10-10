@@ -48,9 +48,7 @@ protected:
 	FLinearColor GetUVColorAtLocation(FHitResult HitResult);
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UAreaRenderingComponent* RenderComponent;
 
