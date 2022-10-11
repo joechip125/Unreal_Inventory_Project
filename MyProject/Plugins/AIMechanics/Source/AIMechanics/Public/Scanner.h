@@ -37,17 +37,19 @@ protected:
 
 	bool CanAddCube(FVector SuggestedPos, float tolerance) const;
 
-	void SetInstanceColor(int index, FColor Color);
+	void SetInstanceColor(int index, FLinearColor Color);
 	
 	FHitResult DoATrace(FVector Start, FVector End);
 
 	FHitResult TraceByChannel(FVector Start, FVector End);
 
-	void SetTargetMaterial(FHitResult HitResult);
+	void SetRenderTarget(FHitResult HitResult);
 
 	FLinearColor GetUVColorAtLocation(FHitResult HitResult);
 
 public:
+	UPROPERTY()
+	bool renderSet;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UAreaRenderingComponent* RenderComponent;
@@ -55,14 +57,20 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UInstancedStaticMeshComponent* CubeInstance;
 
-	UPROPERTY()
-	UMaterialInstanceDynamic* DynamicMaterial;
+	UPROPERTY(VisibleAnywhere)
+	UMaterialInstanceDynamic* DynamicMatOrg;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
+	UMaterialInstanceDynamic* DynamicMatScanned;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UTextureRenderTarget2D* RenderTarget;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UMaterialInterface* TargetMaterial;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UMaterialInterface* AddMaterial;
 };
 
 

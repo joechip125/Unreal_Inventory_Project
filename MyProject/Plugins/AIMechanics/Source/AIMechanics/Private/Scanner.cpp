@@ -15,7 +15,7 @@
 AScanner::AScanner()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 	RenderComponent = CreateDefaultSubobject<UAreaRenderingComponent>(TEXT("RenderComp"));
 	RenderComponent->SetupAttachment(GetRootComponent());
 
@@ -23,13 +23,15 @@ AScanner::AScanner()
 	CubeInstance->SetupAttachment(GetRootComponent());
 	CubeInstance->NumCustomDataFloats = 3;
 
-	//RenderTarget = UKismetRenderingLibrary::CreateRenderTarget2D(GetWorld(), 1024, 1024);
+	RenderTarget = UKismetRenderingLibrary::CreateRenderTarget2D(GetWorld(), 1024, 1024);
+	
 	
 }
 
 // Called when the game starts or when spawned
 void AScanner::BeginPlay()
 {
+	renderSet = false;
 	Super::BeginPlay();
 	
 }
@@ -72,7 +74,6 @@ void AScanner::ClearAll(int Slack)
 void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int numberScans)
 {
 	RenderComponent->Lines.Empty(numberScans);
-	//RenderComponent->Cubes.Empty(numberScans);
 	float increment = FVector::Distance(Start, End) / numberScans;
 	FVector dir = End - Start;
 	dir.Normalize();
@@ -90,9 +91,9 @@ void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int number
 			auto cube = FEditorVisCube(TheEnd, cubeSize, FColor::Emerald);
 			if(CanAddCube(TheEnd, cubeSize.X))
 			{
-				auto aColor = GetUVColorAtLocation(hit);
-				auto num =CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, TheEnd + FVector(1000,0,0), cubeSize / 100));
-				SetInstanceColor(num, aColor.ToRGBE());
+				//auto aColor = GetUVColorAtLocation(hit);
+				//auto num =CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator, TheEnd + FVector(1000,0,0), cubeSize / 100));
+				//SetInstanceColor(num, aColor);
 				RenderComponent->Cubes.Add(cube);
 			}
 		}
@@ -121,11 +122,14 @@ bool AScanner::CanAddCube(FVector SuggestedPos, float tolerance) const
 	return true;
 }
 
-void AScanner::SetInstanceColor(int index, FColor Color)
+void AScanner::SetInstanceColor(int index, FLinearColor Color)
 {
-	CubeInstance->SetCustomDataValue(index, 0, Color.R);
-	CubeInstance->SetCustomDataValue(index, 1, Color.G);
-	CubeInstance->SetCustomDataValue(index, 2, Color.B);
+	auto aColor = Color.ToFColor(true);
+	GEngine->AddOnScreenDebugMessage(0, 20, FColor::Black, Color.ToString());
+	GEngine->AddOnScreenDebugMessage(1, 20, FColor::Green, aColor.ToString());
+	CubeInstance->SetCustomDataValue(index, 0, Color.R * 1.5f);
+	CubeInstance->SetCustomDataValue(index, 1, Color.G * 1.5f);
+	CubeInstance->SetCustomDataValue(index, 2, Color.B * 1.5f);
 	
 }
 
@@ -147,20 +151,27 @@ FHitResult AScanner::TraceByChannel(FVector Start, FVector End)
 	
 }
 
-void AScanner::SetTargetMaterial(FHitResult HitResult)
+void AScanner::SetRenderTarget(FHitResult HitResult)
 {
 	TargetMaterial = Cast<UStaticMeshComponent>(HitResult.Component)->GetMaterial(0);
+	DynamicMatOrg = UMaterialInstanceDynamic::Create(AddMaterial, this);
+	DynamicMatScanned = UMaterialInstanceDynamic::Create(TargetMaterial, this);
+	auto param = FHashedMaterialParameterInfo(TEXT("Albedo"));
+	UTexture* texture = nullptr;
+	DynamicMatScanned->GetTextureParameterValue(param, texture);
+	DynamicMatOrg->SetTextureParameterValue(TEXT("Texture"), texture);
+	RenderTarget->ClearColor = FLinearColor(0.2f, 0.2f, 0.2f);
+	UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), RenderTarget, DynamicMatOrg);
+	renderSet = true;
 }
 
 FLinearColor AScanner::GetUVColorAtLocation(FHitResult HitResult)
 {
-	if(!TargetMaterial) SetTargetMaterial(HitResult);
+	if(!renderSet) SetRenderTarget(HitResult);
 	
 	FVector2d hitPos = FVector2d::ZeroVector;
 	UGameplayStatics::FindCollisionUV(HitResult, 0, hitPos);
-	UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), RenderTarget, TargetMaterial);
 	auto color = UKismetRenderingLibrary::ReadRenderTargetRawUV(GetWorld(), RenderTarget, hitPos.X, hitPos.Y);
-	GEngine->AddOnScreenDebugMessage(0, 4, FColor::Black, color.ToString());
 	return color;
 }
 
