@@ -29,11 +29,15 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void LineScan(FVector Start, FVector End , FVector traceDir, int numberScans);
 
+	UFUNCTION(BlueprintCallable)
+	void ManyScan(int numberScans);
+
 	void AddCube(FVector Pos, FVector Size);
 	UFUNCTION(BlueprintCallable)
 	void GetColorAtHitPoint();
 
-
+	UFUNCTION(BlueprintCallable)
+	FVector GetPointAtRotation(FVector Center, float degree, float Radius);
 
 	bool CanAddCube(FVector SuggestedPos, float tolerance) const;
 
@@ -71,6 +75,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UMaterialInterface* AddMaterial;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UStaticMeshComponent* TurnTable;
 };
 
 

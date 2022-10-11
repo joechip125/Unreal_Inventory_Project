@@ -15,6 +15,9 @@
 AScanner::AScanner()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	RootComponent = CreateDefaultSubobject<USceneComponent>("root");
+	RootComponent->bVisualizeComponent = true;
+
 	PrimaryActorTick.bCanEverTick = true;
 	RenderComponent = CreateDefaultSubobject<UAreaRenderingComponent>(TEXT("RenderComp"));
 	RenderComponent->SetupAttachment(GetRootComponent());
@@ -23,9 +26,10 @@ AScanner::AScanner()
 	CubeInstance->SetupAttachment(GetRootComponent());
 	CubeInstance->NumCustomDataFloats = 3;
 
+	TurnTable = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TurnTable"));
+	TurnTable->SetupAttachment(GetRootComponent());
+
 	RenderTarget = UKismetRenderingLibrary::CreateRenderTarget2D(GetWorld(), 1024, 1024);
-	
-	
 }
 
 // Called when the game starts or when spawned
@@ -49,11 +53,12 @@ void AScanner::CircleScan(FVector Center, float Radius, int numberScans)
 		float theCos = FMath::Cos(FMath::DegreesToRadians(degree)) * Radius;
 		auto pos = Center + FVector(theCos, theSin,0);
 		auto hit = DoATrace(pos, Center);
+		auto cubeSize = FVector(10,10,10);
 
-		if(hit.bBlockingHit)
+		if(hit.bBlockingHit && CanAddCube(pos, cubeSize.X))
 		{
 			pos = hit.Location;
-			auto cube = FEditorVisCube(pos, FVector(10,10,10), FColor::Emerald);
+			auto cube = FEditorVisCube(pos, cubeSize, FColor::Emerald);
 			RenderComponent->Cubes.Add(cube);
 		}
 		
@@ -101,6 +106,16 @@ void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int number
 		auto line = FEditorVisLine(current, TheEnd, hit.bBlockingHit ? FColor::Green : FColor::Red);
 		RenderComponent->Lines.Add(line);
 		current += FVector(dir.X * increment, dir.Y * increment, dir.Z * increment);
+	}
+}
+
+void AScanner::ManyScan(int numberScans)
+{
+	FVector startPos = GetActorLocation();
+	for(int i = 0; i < numberScans; i++)
+	{
+		LineScan(startPos, startPos + FVector(0,0, 200), FVector(1,0,0), 20);
+		startPos += FVector(0,10,0);
 	}
 }
 
@@ -178,5 +193,15 @@ FLinearColor AScanner::GetUVColorAtLocation(FHitResult HitResult)
 void AScanner::GetColorAtHitPoint()
 {
 	
+}
+
+FVector AScanner::GetPointAtRotation(FVector Center, float degree, float Radius)
+{
+	float theSin = FMath::Sin(FMath::DegreesToRadians(degree)) * Radius;
+	float theCos = FMath::Cos(FMath::DegreesToRadians(degree)) * Radius;
+
+	auto pos = Center + FVector(theCos, theSin,0);
+
+	return pos;
 }
 
