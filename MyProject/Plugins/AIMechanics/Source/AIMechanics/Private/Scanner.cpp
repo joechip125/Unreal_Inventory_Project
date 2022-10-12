@@ -121,9 +121,10 @@ void AScanner::ManyScan(int numberScans)
 	auto totalZ = 200;
 	auto firstTrace = DoATrace(startPos + FVector(0,0, 2000), startPos);
 	
-	if(ScanFlags & static_cast<uint8>(EScanCriteria::GetBounds))
+	if(ScanFlags & static_cast<uint8>(EScanCriteria::GetBounds) && firstTrace.GetActor())
 	{
 		firstTrace.GetActor()->GetActorBounds(true, Center, Extent);
+		GEngine->AddOnScreenDebugMessage(1, 20, FColor::Blue, firstTrace.GetActor()->GetName());
 	}
 
 	if(ScanFlags & static_cast<uint8>(EScanCriteria::SetRenderTarget) && !renderSet)
@@ -252,6 +253,7 @@ void AScanner::DoSingleLine(FVector Start, FVector End)
 		HitResult.bBlockingHit ? HitResult.Location : End,
 		HitResult.bBlockingHit ? FColor::Green : FColor::Red);
 	
+	GEngine->AddOnScreenDebugMessage(1, 20, FColor::Black, FString::FromInt(RenderComponent->Lines.Num()));
 	RenderComponent->Lines.Add(line);
 }
 
