@@ -146,8 +146,8 @@ bool AScanner::CanAddCube(FVector SuggestedPos, float tolerance) const
 void AScanner::SetInstanceColor(int index, FLinearColor Color)
 {
 	auto aColor = Color.ToFColor(true);
-	GEngine->AddOnScreenDebugMessage(0, 20, FColor::Black, Color.ToString());
-	GEngine->AddOnScreenDebugMessage(1, 20, FColor::Green, aColor.ToString());
+	GEngine->AddOnScreenDebugMessage(0, 20, Color.ToFColor(true), Color.ToString());
+	GEngine->AddOnScreenDebugMessage(1, 20, Color.ToFColor(false), aColor.ToString());
 	CubeInstance->SetCustomDataValue(index, 0, Color.R * 1.5f);
 	CubeInstance->SetCustomDataValue(index, 1, Color.G * 1.5f);
 	CubeInstance->SetCustomDataValue(index, 2, Color.B * 1.5f);
