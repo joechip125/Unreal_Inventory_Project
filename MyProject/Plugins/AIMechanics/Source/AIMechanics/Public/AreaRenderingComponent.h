@@ -41,6 +41,16 @@ struct AIMECHANICS_API FEditorVisCube
 	{
 	}
 
+	FEditorVisCube(const FVector& InPos, const FVector& InSize,
+						 const FColor& InColour, const float& LineThickness, FRotator rotation)
+		: Position(InPos),
+		  Rotation(rotation),
+		  Size(InSize),
+		  Color(InColour),
+		  LineThickness(LineThickness)	
+	{
+	}
+
 	FEditorVisCube():
 		Position(FVector::ZeroVector),
 		Rotation(FRotator::ZeroRotator),

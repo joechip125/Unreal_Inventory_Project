@@ -125,6 +125,12 @@ void AScanner::AddCube(FVector Pos, FVector Size)
 	RenderComponent->Cubes.Add(cube);
 }
 
+void AScanner::AddCubeWithRotation(FVector Pos, FVector Size, FRotator Rotation)
+{
+	auto cube = FEditorVisCube(Pos, Size, FColor::Emerald, 3, Rotation);
+	RenderComponent->Cubes.Add(cube);
+}
+
 bool AScanner::CanAddCube(FVector SuggestedPos, float tolerance) const
 {
 	for(auto Cube : RenderComponent->Cubes)

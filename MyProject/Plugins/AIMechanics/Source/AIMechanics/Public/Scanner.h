@@ -32,7 +32,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void ManyScan(int numberScans);
 
+	UFUNCTION(BlueprintCallable)
 	void AddCube(FVector Pos, FVector Size);
+
+	UFUNCTION(BlueprintCallable)
+	void AddCubeWithRotation(FVector Pos, FVector Size, FRotator Rotation);
+	
 	UFUNCTION(BlueprintCallable)
 	void GetColorAtHitPoint();
 
