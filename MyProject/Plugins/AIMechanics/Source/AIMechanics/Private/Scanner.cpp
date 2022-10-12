@@ -138,6 +138,18 @@ void AScanner::ManyScan(int numberScans)
 		increment = 0;
 		zVal +=  totalZ / numberScans;
 	}
+
+
+	if(ScanFlags & (uint8)(EScanCriteria::ClearAll))
+	{
+		ClearAll(10);
+
+		GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Black, TEXT("Something happend"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Black, TEXT("nothing happen"));
+	}
 }
 
 void AScanner::AddCube(FVector Pos, FVector Size)

@@ -26,12 +26,13 @@ struct FPointData
 	
 };
 
-UENUM(BlueprintType, meta=(Bitflags))
+UENUM(BlueprintType, meta=(Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum class EScanCriteria : uint8
 {
 	None = 0 UMETA(Hidden),
 	GetBounds = 1 << 1,
 	SpawnCubes = 1 << 2,
+	ClearAll = 1 << 3
 };
 
 UCLASS()
@@ -107,10 +108,10 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UMaterialInstanceDynamic* DynamicMatScanned;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	UTextureRenderTarget2D* RenderTarget;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	UMaterialInterface* TargetMaterial;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -119,7 +120,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* TurnTable;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Bitmask, BitmaskEnum = EScanCriteria))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Bitmask, BitmaskEnum = "EScanCriteria"))
 	int32 ScanFlags;
 };
 
