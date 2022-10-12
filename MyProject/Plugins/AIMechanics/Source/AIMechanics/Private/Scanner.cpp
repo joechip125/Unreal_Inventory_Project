@@ -118,7 +118,12 @@ void AScanner::ManyScan(int numberScans)
 	FVector Center;
 	FVector Extent;
 
-	GetActorBounds(Center, Extent);
+	auto totalZ = 200;
+	if(ScanFlags & static_cast<uint8>(EScanCriteria::GetBounds))
+	{
+		GetHitActorBounds(Center, Extent);
+		totalZ = Extent.Z * 2;
+	}
 	
 	for(int i = 0; i < numberScans; i++)
 	{
@@ -131,7 +136,7 @@ void AScanner::ManyScan(int numberScans)
 		
 		startPos += FVector(0,10,0);
 		increment = 0;
-		zVal += 20;
+		zVal +=  totalZ / numberScans;
 	}
 }
 
@@ -203,7 +208,7 @@ void AScanner::SetRenderTarget(FHitResult HitResult)
 	renderSet = true;
 }
 
-void AScanner::GetActorBounds(FVector& Center, FVector& Extent)
+void AScanner::GetHitActorBounds(FVector& Center, FVector& Extent)
 {
 	DoATrace(GetActorLocation() + FVector(0, 0,2000),
 		GetActorLocation()).GetActor()->

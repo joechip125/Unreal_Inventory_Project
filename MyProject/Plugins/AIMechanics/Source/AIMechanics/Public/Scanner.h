@@ -26,6 +26,14 @@ struct FPointData
 	
 };
 
+UENUM(BlueprintType, meta=(Bitflags))
+enum class EScanCriteria : uint8
+{
+	None = 0 UMETA(Hidden),
+	GetBounds = 1 << 1,
+	SpawnCubes = 1 << 2,
+};
+
 UCLASS()
 class AIMECHANICS_API AScanner : public AActor
 {
@@ -76,7 +84,7 @@ protected:
 
 	void SetRenderTarget(FHitResult HitResult);
 
-	void GetActorBounds(FVector& Center, FVector& Extent);
+	void GetHitActorBounds(FVector& Center, FVector& Extent);
 	
 	FLinearColor GetUVColorAtLocation(FHitResult HitResult);
 
@@ -110,6 +118,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* TurnTable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Bitmask, BitmaskEnum = EScanCriteria))
+	int32 ScanFlags;
 };
 
 
