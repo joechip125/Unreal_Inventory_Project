@@ -119,10 +119,16 @@ void AScanner::ManyScan(int numberScans)
 	FVector Extent;
 
 	auto totalZ = 200;
+	auto firstTrace = DoATrace(startPos + FVector(0,0, 2000), startPos);
+	
 	if(ScanFlags & static_cast<uint8>(EScanCriteria::GetBounds))
 	{
-		GetHitActorBounds(Center, Extent);
-		totalZ = Extent.Z * 2;
+		firstTrace.GetActor()->GetActorBounds(true, Center, Extent);
+	}
+
+	if(ScanFlags & static_cast<uint8>(EScanCriteria::SetRenderTarget) && !renderSet)
+	{
+		SetRenderTarget(firstTrace);
 	}
 	
 	for(int i = 0; i < numberScans; i++)
@@ -139,16 +145,9 @@ void AScanner::ManyScan(int numberScans)
 		zVal +=  totalZ / numberScans;
 	}
 
-
 	if(ScanFlags & (uint8)(EScanCriteria::ClearAll))
 	{
 		ClearAll(10);
-
-		GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Black, TEXT("Something happend"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 20, FColor::Black, TEXT("nothing happen"));
 	}
 }
 

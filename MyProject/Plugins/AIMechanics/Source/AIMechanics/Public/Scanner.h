@@ -32,7 +32,8 @@ enum class EScanCriteria : uint8
 	None = 0 UMETA(Hidden),
 	GetBounds = 1 << 1,
 	SpawnCubes = 1 << 2,
-	ClearAll = 1 << 3
+	ClearAll = 1 << 3,
+	SetRenderTarget = 1 << 4
 };
 
 UCLASS()
