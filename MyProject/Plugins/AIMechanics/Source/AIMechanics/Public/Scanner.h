@@ -7,6 +7,25 @@
 #include "GameFramework/Actor.h"
 #include "Scanner.generated.h"
 
+USTRUCT()
+struct FPointData
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	FVector HitPoint;
+
+	UPROPERTY()
+	FVector HitRot;
+
+	UPROPERTY()
+	FVector HitScale;
+
+	UPROPERTY()
+	FColor HitColor;
+	
+};
+
 UCLASS()
 class AIMECHANICS_API AScanner : public AActor
 {
@@ -42,6 +61,9 @@ protected:
 	void GetColorAtHitPoint();
 
 	UFUNCTION(BlueprintCallable)
+	void DoSingleLine(FVector Start, FVector End);
+	
+	UFUNCTION(BlueprintCallable)
 	FVector GetPointAtRotation(FVector Center, float degree, float Radius);
 
 	bool CanAddCube(FVector SuggestedPos, float tolerance) const;
@@ -54,11 +76,16 @@ protected:
 
 	void SetRenderTarget(FHitResult HitResult);
 
+	void GetActorBounds(FVector& Center, FVector& Extent);
+	
 	FLinearColor GetUVColorAtLocation(FHitResult HitResult);
 
 public:
 	UPROPERTY()
 	bool renderSet;
+
+	UPROPERTY()
+	TArray<FPointData> pointArray;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UAreaRenderingComponent* RenderComponent;

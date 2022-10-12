@@ -112,10 +112,26 @@ void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int number
 void AScanner::ManyScan(int numberScans)
 {
 	FVector startPos = GetActorLocation();
+	auto Circ =(PI * 2) * 300;
+	auto increment = 0;
+	float zVal = 15;
+	FVector Center;
+	FVector Extent;
+
+	GetActorBounds(Center, Extent);
+	
 	for(int i = 0; i < numberScans; i++)
 	{
-		LineScan(startPos, startPos + FVector(0,0, 200), FVector(1,0,0), 20);
+		for(int j = 0; j < numberScans; j++)
+		{
+			auto aPoint = GetPointAtRotation(GetActorLocation() + FVector(0,0,zVal), increment, 300);
+			DoSingleLine(aPoint,GetActorLocation() + FVector(0,0,zVal));
+			increment += 360 / numberScans;
+		}
+		
 		startPos += FVector(0,10,0);
+		increment = 0;
+		zVal += 20;
 	}
 }
 
@@ -154,6 +170,7 @@ void AScanner::SetInstanceColor(int index, FLinearColor Color)
 	
 }
 
+
 FHitResult AScanner::DoATrace(FVector Start, FVector End)
 {
 	auto HitResult = FHitResult();
@@ -181,9 +198,16 @@ void AScanner::SetRenderTarget(FHitResult HitResult)
 	UTexture* texture = nullptr;
 	DynamicMatScanned->GetTextureParameterValue(param, texture);
 	DynamicMatOrg->SetTextureParameterValue(TEXT("Texture"), texture);
-	RenderTarget->ClearColor = FLinearColor(0.2f, 0.2f, 0.2f);
+	//RenderTarget->ClearColor = FLinearColor(0.2f, 0.2f, 0.2f);
 	UKismetRenderingLibrary::DrawMaterialToRenderTarget(GetWorld(), RenderTarget, DynamicMatOrg);
 	renderSet = true;
+}
+
+void AScanner::GetActorBounds(FVector& Center, FVector& Extent)
+{
+	DoATrace(GetActorLocation() + FVector(0, 0,2000),
+		GetActorLocation()).GetActor()->
+	GetActorBounds(true, Center, Extent);
 }
 
 FLinearColor AScanner::GetUVColorAtLocation(FHitResult HitResult)
@@ -199,6 +223,20 @@ FLinearColor AScanner::GetUVColorAtLocation(FHitResult HitResult)
 void AScanner::GetColorAtHitPoint()
 {
 	
+}
+
+void AScanner::DoSingleLine(FVector Start, FVector End)
+{
+	
+	auto HitResult = FHitResult();
+	auto Query = FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic);
+	GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, Query);
+	
+	auto line = FEditorVisLine(Start,
+		HitResult.bBlockingHit ? HitResult.Location : End,
+		HitResult.bBlockingHit ? FColor::Green : FColor::Red);
+	
+	RenderComponent->Lines.Add(line);
 }
 
 FVector AScanner::GetPointAtRotation(FVector Center, float degree, float Radius)
