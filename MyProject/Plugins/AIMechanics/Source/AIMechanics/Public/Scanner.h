@@ -16,13 +16,40 @@ struct FPointData
 	FVector HitPoint;
 
 	UPROPERTY()
-	FVector HitRot;
+	FRotator HitRot;
 
 	UPROPERTY()
 	FVector HitScale;
 
 	UPROPERTY()
-	FColor HitColor;
+	FLinearColor HitColor;
+
+
+	FPointData() :
+	HitPoint(FVector::ZeroVector),
+	HitRot(FRotator::ZeroRotator),
+	HitScale(FVector::ZeroVector),
+	HitColor(FColor::Blue)
+	{
+	}
+	
+	FPointData(const FVector InPos, const FLinearColor InColor) :
+	HitPoint(InPos),
+	HitRot(FRotator::ZeroRotator),
+	HitScale(FVector::ZeroVector),
+	HitColor(InColor)
+	{
+	}
+
+	FPointData(const FVector InPos, const FLinearColor InColor, const FVector InScale) :
+	HitPoint(InPos),
+	HitRot(FRotator::ZeroRotator),
+	HitScale(InScale),
+	HitColor(InColor)
+	{
+	}
+	
+	
 	
 };
 
@@ -59,7 +86,7 @@ protected:
 	void LineScan(FVector Start, FVector End , FVector traceDir, int numberScans);
 
 	UFUNCTION(BlueprintCallable)
-	void ManyScan(int numberScans);
+	void ManyScan(int numberXY, int numberZ, float gamma);
 
 	UFUNCTION(BlueprintCallable)
 	void AddCube(FVector Pos, FVector Size);
@@ -71,16 +98,18 @@ protected:
 	void GetColorAtHitPoint();
 
 	UFUNCTION(BlueprintCallable)
-	void DoSingleLine(FVector Start, FVector End);
+	FHitResult DoSingleLine(FVector Start, FVector End);
 	
 	UFUNCTION(BlueprintCallable)
 	FVector GetPointAtRotation(FVector Center, float degree, float Radius);
 
 	bool CanAddCube(FVector SuggestedPos, float tolerance) const;
 
-	void SetInstanceColor(int index, FLinearColor Color);
+	void SetInstanceColor(int index, FLinearColor Color, float gamma);
 	
 	FHitResult DoATrace(FVector Start, FVector End);
+
+	void GetTheSize(float zVal);
 
 	FHitResult TraceByChannel(FVector Start, FVector End);
 

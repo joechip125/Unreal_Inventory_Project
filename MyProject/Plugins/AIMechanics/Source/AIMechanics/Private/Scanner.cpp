@@ -109,7 +109,7 @@ void AScanner::LineScan(FVector Start, FVector End, FVector traceDir, int number
 	}
 }
 
-void AScanner::ManyScan(int numberScans)
+void AScanner::ManyScan(int numberXY, int numberZ, float gamma)
 {
 	FVector startPos = GetActorLocation();
 	auto Circ =(PI * 2) * 300;
@@ -118,34 +118,49 @@ void AScanner::ManyScan(int numberScans)
 	FVector Center;
 	FVector Extent;
 
-	auto totalZ = 200;
+	float totalZ = 200;
 	auto firstTrace = DoATrace(startPos + FVector(0,0, 2000), startPos);
 	
 	if(ScanFlags & static_cast<uint8>(EScanCriteria::GetBounds) && firstTrace.GetActor())
 	{
 		firstTrace.GetActor()->GetActorBounds(true, Center, Extent);
-		GEngine->AddOnScreenDebugMessage(1, 20, FColor::Blue, Extent.ToString());
+		totalZ = Extent.Z * 2;
 	}
 
 	if(ScanFlags & static_cast<uint8>(EScanCriteria::SetRenderTarget) && !renderSet)
 	{
 		SetRenderTarget(firstTrace);
 	}
+
+	float zScale = (totalZ / numberZ) / 100;
 	
-	for(int i = 0; i < numberScans; i++)
+	for(int i = 0; i < numberZ; i++)
 	{
-		for(int j = 0; j < numberScans; j++)
+		for(int j = 0; j < numberXY; j++)
 		{
 			auto aPoint = GetPointAtRotation(GetActorLocation() + FVector(0,0,zVal), increment, 300);
-			DoSingleLine(aPoint,GetActorLocation() + FVector(0,0,zVal));
-			increment += 360 / numberScans;
+			auto theHit = DoSingleLine(aPoint,GetActorLocation() + FVector(0,0,zVal));
+			increment += 360 / numberXY;
+			auto color = GetUVColorAtLocation(theHit);
+			pointArray.Add(FPointData(theHit.Location + FVector(400, 0,0), color,
+				FVector(0.1f, 0.1f, zScale)));
 		}
 		
 		startPos += FVector(0,10,0);
 		increment = 0;
-		zVal +=  totalZ / numberScans;
+		zVal +=  totalZ / numberZ;
 	}
 
+	if(ScanFlags & static_cast<uint8>(EScanCriteria::SpawnCubes))
+	{
+		for (auto Point : pointArray)
+		{
+			CubeInstance->AddInstance(FTransform(FRotator::ZeroRotator,
+				Point.HitPoint, Point.HitScale ), true);
+			SetInstanceColor(CubeInstance->GetInstanceCount() - 1, Point.HitColor, gamma);
+		}
+	}
+	
 	if(ScanFlags & (uint8)(EScanCriteria::ClearAll))
 	{
 		ClearAll(10);
@@ -176,15 +191,14 @@ bool AScanner::CanAddCube(FVector SuggestedPos, float tolerance) const
 	return true;
 }
 
-void AScanner::SetInstanceColor(int index, FLinearColor Color)
+void AScanner::SetInstanceColor(int index, FLinearColor Color, float gamma)
 {
-	auto aColor = Color.ToFColor(true);
-	GEngine->AddOnScreenDebugMessage(0, 20, Color.ToFColor(true), Color.ToString());
-	GEngine->AddOnScreenDebugMessage(1, 20, Color.ToFColor(false), aColor.ToString());
-	CubeInstance->SetCustomDataValue(index, 0, Color.R * 1.5f);
-	CubeInstance->SetCustomDataValue(index, 1, Color.G * 1.5f);
-	CubeInstance->SetCustomDataValue(index, 2, Color.B * 1.5f);
+	//GEngine->AddOnScreenDebugMessage(-1, 20,Color.ToFColor(true) , Color.ToString());
+	//GEngine->AddOnScreenDebugMessage(-1, 20,Color.ToFColor(false) , Color.ToString());
 	
+	CubeInstance->SetCustomDataValue(index, 0, Color.R * gamma);
+	CubeInstance->SetCustomDataValue(index, 1, Color.G * gamma);
+	CubeInstance->SetCustomDataValue(index, 2, Color.B * gamma);
 }
 
 
@@ -195,6 +209,25 @@ FHitResult AScanner::DoATrace(FVector Start, FVector End)
 	GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, Query);
 	
 	return HitResult;
+}
+
+void AScanner::GetTheSize(float zVal)
+{
+	int numTraces = 6;
+	int increment = 360 / numTraces;
+	int currentDegree = 0;
+	TMap<int,FVector> points;
+	
+	for (int i = 0; i < numTraces; i++)
+	{
+		auto aPoint = GetPointAtRotation(GetActorLocation() +
+			FVector(0,0, zVal), currentDegree, 300);
+
+		auto hit = DoATrace(aPoint,  GetActorLocation());
+		
+		points.Add(currentDegree, aPoint);
+		currentDegree += increment;
+	}
 }
 
 FHitResult AScanner::TraceByChannel(FVector Start, FVector End)
@@ -242,9 +275,8 @@ void AScanner::GetColorAtHitPoint()
 	
 }
 
-void AScanner::DoSingleLine(FVector Start, FVector End)
+FHitResult AScanner::DoSingleLine(FVector Start, FVector End)
 {
-	
 	auto HitResult = FHitResult();
 	auto Query = FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic);
 	GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, Query);
@@ -253,8 +285,9 @@ void AScanner::DoSingleLine(FVector Start, FVector End)
 		HitResult.bBlockingHit ? HitResult.Location : End,
 		HitResult.bBlockingHit ? FColor::Green : FColor::Red);
 	
-
 	RenderComponent->Lines.Add(line);
+
+	return HitResult;
 }
 
 FVector AScanner::GetPointAtRotation(FVector Center, float degree, float Radius)
