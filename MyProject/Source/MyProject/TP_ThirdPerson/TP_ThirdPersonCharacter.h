@@ -3,13 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
+#include "NewAbilitySystem.h"
+#include "../../../../../../Program Files/Epic Games/UE_5.0/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Public/AbilitySystemComponent.h"
 #include "GameFramework/Character.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "Perception/AIPerceptionTypes.h"
 #include "TP_ThirdPersonCharacter.generated.h"
 
 UCLASS(config=Game)
-class ATP_ThirdPersonCharacter : public ACharacter
+class ATP_ThirdPersonCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -23,6 +26,8 @@ class ATP_ThirdPersonCharacter : public ACharacter
 public:
 	ATP_ThirdPersonCharacter();
 
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Input)
 	float TurnRateGamepad;
@@ -34,6 +39,8 @@ protected:
 
 	/** Called for side to side input */
 	void MoveRight(float Value);
+
+	virtual void PossessedBy(AController* NewController) override;
 
 	/** 
 	 * Called via input to turn at a given rate. 
@@ -63,5 +70,10 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UNewAbilitySystem* AbilitySystem;
+
+	friend class AAbilityControllerBase;
 };
 

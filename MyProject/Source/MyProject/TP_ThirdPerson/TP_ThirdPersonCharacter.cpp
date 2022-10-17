@@ -13,6 +13,9 @@
 
 ATP_ThirdPersonCharacter::ATP_ThirdPersonCharacter()
 {
+	AbilitySystem = CreateDefaultSubobject<UNewAbilitySystem>(TEXT("AbilitySystem"));
+	AbilitySystem->SetIsReplicated(true);
+	
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -49,6 +52,10 @@ ATP_ThirdPersonCharacter::ATP_ThirdPersonCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+}
+
+UAbilitySystemComponent* ATP_ThirdPersonCharacter::GetAbilitySystemComponent() const
+{
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -127,4 +134,18 @@ void ATP_ThirdPersonCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void ATP_ThirdPersonCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (AbilitySystem)
+	{
+		AbilitySystem->InitAbilityActorInfo(this, this);
+	}
+
+	// ASC MixedMode replication requires that the ASC Owner's Owner be the Controller.
+	SetOwner(NewController);
+	
 }
