@@ -17,6 +17,11 @@ bool UAbilitySystemBase::GrantAbilities()
 {
 	for(const auto ability : GrantedAbilities)
 	{
+		FGameplayAbilitySpec* foundSpec = FindAbilitySpecFromClass(ability);
+
+		if(foundSpec->Ability->GetClass() == ability) continue;
+		
+		
 		FGameplayAbilitySpec AbilitySpec(ability);
 		GiveAbility(AbilitySpec);
 	}
