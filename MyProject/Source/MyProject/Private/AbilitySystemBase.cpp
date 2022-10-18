@@ -15,7 +15,6 @@ void UAbilitySystemBase::BeginPlay()
 
 bool UAbilitySystemBase::GrantAbilities()
 {
-
 	for(const auto ability : GrantedAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec(ability);

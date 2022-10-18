@@ -56,6 +56,7 @@ ATP_ThirdPersonCharacter::ATP_ThirdPersonCharacter()
 
 UAbilitySystemComponent* ATP_ThirdPersonCharacter::GetAbilitySystemComponent() const
 {
+	return AbilitySystem;
 }
 
 //////////////////////////////////////////////////////////////////////////
