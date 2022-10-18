@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "NewAbilitySystem.h"
+#include "AbilitySystemBase.h"
 #include "../../../../../../Program Files/Epic Games/UE_5.0/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Public/AbilitySystemComponent.h"
 #include "GameFramework/Character.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
@@ -72,7 +72,7 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UNewAbilitySystem* AbilitySystem;
+	UAbilitySystemBase* AbilitySystem;
 
 	friend class AAbilityControllerBase;
 };

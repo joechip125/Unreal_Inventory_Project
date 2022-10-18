@@ -13,7 +13,7 @@
 
 ATP_ThirdPersonCharacter::ATP_ThirdPersonCharacter()
 {
-	AbilitySystem = CreateDefaultSubobject<UNewAbilitySystem>(TEXT("AbilitySystem"));
+	AbilitySystem = CreateDefaultSubobject<UAbilitySystemBase>(TEXT("AbilitySystem"));
 	AbilitySystem->SetIsReplicated(true);
 	
 	// Set size for collision capsule
