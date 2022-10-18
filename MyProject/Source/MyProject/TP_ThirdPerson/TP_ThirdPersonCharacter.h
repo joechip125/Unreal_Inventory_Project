@@ -71,9 +71,14 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UAbilitySystemBase* AbilitySystem;
 
 	friend class AAbilityControllerBase;
+
+	UFUNCTION(Server, Reliable)
+	void ServerInteract(AActor* HitActor, ACharacter* Interactor);
 };
 
