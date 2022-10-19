@@ -28,3 +28,20 @@ bool UAbilitySystemBase::GrantAbilities()
 
 	return !GrantedAbilities.IsEmpty();
 }
+
+bool UAbilitySystemBase::GrantAttributes()
+{
+	if(GrantedAttributes.IsEmpty()) return false;
+
+	TArray<UAttributeSet*> Sets;
+	
+	for(auto Attribute : GrantedAttributes)
+	{
+		Attribute.GetDefaultObject()->InitFromMetaDataTable(DTAttribute);
+		Sets.AddUnique(Attribute.GetDefaultObject());
+		AddAttributeSetSubobject(Attribute.GetDefaultObject());
+	}
+
+
+	return true;
+}

@@ -24,5 +24,14 @@ public:
 
 	bool GrantAbilities();
 
+	bool GrantAttributes();
+
 	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
+
+	TArray<TSubclassOf<UAttributeSet>> GrantedAttributes;
+
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* DTAttribute;
+
+	
 };
