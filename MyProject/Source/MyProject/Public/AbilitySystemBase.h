@@ -26,8 +26,10 @@ public:
 
 	bool GrantAttributes();
 
+	UPROPERTY(EditDefaultsOnly)
 	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
 
+	UPROPERTY(EditDefaultsOnly)
 	TArray<TSubclassOf<UAttributeSet>> GrantedAttributes;
 
 	UPROPERTY(EditDefaultsOnly)

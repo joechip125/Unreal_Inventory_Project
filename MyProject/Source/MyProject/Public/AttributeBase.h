@@ -21,7 +21,7 @@ class MYPROJECT_API UAttributeBase : public UAttributeSet
 	
 public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing=OnRep_Health)
-	FGameplayAttributeData Health;
+	FGameplayAttributeData Health = 100;
 	
 	ATTRIBUTE_ACCESSORS(UAttributeBase, Health);
 

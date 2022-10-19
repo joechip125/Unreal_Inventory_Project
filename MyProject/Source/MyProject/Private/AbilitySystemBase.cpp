@@ -11,10 +11,22 @@ UAbilitySystemBase::UAbilitySystemBase()
 void UAbilitySystemBase::BeginPlay()
 {
 	Super::BeginPlay();
+	
+
+	if(!GrantAttributes())
+	{
+		
+	}
+	if(!GrantAbilities())
+	{
+		
+	}
 }
 
 bool UAbilitySystemBase::GrantAbilities()
 {
+	if(GrantedAbilities.IsEmpty()) return false;
+	
 	for(const auto ability : GrantedAbilities)
 	{
 		FGameplayAbilitySpec* foundSpec = FindAbilitySpecFromClass(ability);
@@ -26,7 +38,7 @@ bool UAbilitySystemBase::GrantAbilities()
 		GiveAbility(AbilitySpec);
 	}
 
-	return !GrantedAbilities.IsEmpty();
+	return true;
 }
 
 bool UAbilitySystemBase::GrantAttributes()
