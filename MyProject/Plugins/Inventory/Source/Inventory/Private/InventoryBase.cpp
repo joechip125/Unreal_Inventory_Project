@@ -3,6 +3,8 @@
 
 #include "InventoryBase.h"
 
+#include "Net/UnrealNetwork.h"
+
 
 // Sets default values for this component's properties
 UInventoryBase::UInventoryBase()
@@ -31,5 +33,12 @@ void UInventoryBase::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UInventoryBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UInventoryBase, Items)
 }
 

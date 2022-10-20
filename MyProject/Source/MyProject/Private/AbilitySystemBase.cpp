@@ -49,11 +49,15 @@ bool UAbilitySystemBase::GrantAttributes()
 	
 	for(auto Attribute : GrantedAttributes)
 	{
-		Attribute.GetDefaultObject()->InitFromMetaDataTable(DTAttribute);
-		Sets.AddUnique(Attribute.GetDefaultObject());
-		AddAttributeSetSubobject(Attribute.GetDefaultObject());
+		bool exists = GetAttributeSubobject(Attribute) != nullptr;
+		if(exists) continue;
+
+		auto NewAttribute = NewObject<UAttributeSet>(GetOwner(), Attribute);
+		
+		NewAttribute->InitFromMetaDataTable(DTAttribute);
+		//Sets.AddUnique(Attribute.GetDefaultObject());
+		AddAttributeSetSubobject(NewAttribute);
 	}
-
-
+	
 	return true;
 }

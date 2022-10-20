@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InventoryStructs.h"
 #include "Components/ActorComponent.h"
 #include "InventoryBase.generated.h"
 
@@ -15,6 +16,9 @@ public:
 	// Sets default values for this component's properties
 	UInventoryBase();
 
+	UPROPERTY(Replicated)
+	TArray<FItems> Items;
+
 
 protected:
 	// Called when the game starts
@@ -24,4 +28,6 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

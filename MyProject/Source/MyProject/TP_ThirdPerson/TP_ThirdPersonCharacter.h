@@ -78,7 +78,7 @@ public:
 
 	friend class AAbilityControllerBase;
 
-	UFUNCTION(Server, Reliable)
+	UFUNCTION(Server, Reliable, BlueprintCallable)
 	void ServerInteract(AActor* HitActor, ACharacter* Interactor);
 };
 
