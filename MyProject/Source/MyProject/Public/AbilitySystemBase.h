@@ -7,18 +7,17 @@
 #include "UObject/Object.h"
 #include "AbilitySystemBase.generated.h"
 
-/**
- * 
- */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthAttributeChanged, FGameplayAttribute, Attribute, float, Value);
+
 UCLASS()
 class MYPROJECT_API UAbilitySystemBase : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
-
-
-
 public:
 	UAbilitySystemBase();
+
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthAttributeChanged OnHealthAttributeChanged;
 	
 	virtual void BeginPlay() override;
 
@@ -35,5 +34,5 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* DTAttribute;
 
-	
+	void OnHealthChanged(FGameplayAttribute Attribute, float Value);
 };

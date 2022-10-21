@@ -16,6 +16,7 @@ void UAttributeBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UAttributeBase, Health, COND_None, REPNOTIFY_Always)
+	DOREPLIFETIME_CONDITION_NOTIFY(UAttributeBase, MaxHealth, COND_None, REPNOTIFY_Always)
 }
 
 void UAttributeBase::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)

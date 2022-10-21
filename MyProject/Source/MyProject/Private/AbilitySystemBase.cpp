@@ -21,6 +21,9 @@ void UAbilitySystemBase::BeginPlay()
 	{
 		
 	}
+
+//	GetGameplayAttributeValueChangeDelegate(UAttribute)
+	OnHealthAttributeChanged.AddDynamic(this, &UAbilitySystemBase::OnHealthChanged);
 }
 
 bool UAbilitySystemBase::GrantAbilities()
@@ -60,4 +63,8 @@ bool UAbilitySystemBase::GrantAttributes()
 	}
 	
 	return true;
+}
+
+void UAbilitySystemBase::OnHealthChanged(FGameplayAttribute Attribute, float Value)
+{
 }
