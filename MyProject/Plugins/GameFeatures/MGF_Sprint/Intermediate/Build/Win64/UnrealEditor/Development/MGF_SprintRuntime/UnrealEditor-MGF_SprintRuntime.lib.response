@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-MGF_SprintRuntime.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Projects\Unreal_Inventory_Project\MyProject\Intermediate\Build\Win64\MyProjectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\GameFeatures\MGF_Sprint\Intermediate\Build\Win64\UnrealEditor\Development\MGF_SprintRuntime\MGF_SprintRuntimeModule.cpp.obj"
+"C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\GameFeatures\MGF_Sprint\Intermediate\Build\Win64\UnrealEditor\Development\MGF_SprintRuntime\Default.rc2.res"
+/OUT:"C:\Projects\Unreal_Inventory_Project\MyProject\Plugins\GameFeatures\MGF_Sprint\Intermediate\Build\Win64\UnrealEditor\Development\MGF_SprintRuntime\UnrealEditor-MGF_SprintRuntime.lib"

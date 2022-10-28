@@ -1,0 +1,14 @@
+{
+    "Version": "1.1",
+    "Data": {
+        "Source": "c:\\projects\\unreal_inventory_project\\myproject\\plugins\\gamefeatures\\mgf_sprint\\source\\mgf_sprintruntime\\private\\mgf_sprintruntimemodule.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\projects\\unreal_inventory_project\\myproject\\intermediate\\build\\win64\\myprojecteditor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "c:\\projects\\unreal_inventory_project\\myproject\\plugins\\gamefeatures\\mgf_sprint\\intermediate\\build\\win64\\unrealeditor\\development\\mgf_sprintruntime\\definitions.mgf_sprintruntime.h",
+            "c:\\projects\\unreal_inventory_project\\myproject\\plugins\\gamefeatures\\mgf_sprint\\source\\mgf_sprintruntime\\public\\mgf_sprintruntimemodule.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

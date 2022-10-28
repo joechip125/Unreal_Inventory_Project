@@ -17,6 +17,8 @@ public class MyProject : ModuleRules
 				"GameplayAbilities",
 				"GameplayTags",
 				"GameplayTasks",
+				"GameFeatures",
+				"ModularGameplay"
 			});
 	}
 }
